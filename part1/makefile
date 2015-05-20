@@ -3,4 +3,4 @@ bin/main: bin/main.o
 
 bin/main.o: 
 	mkdir -p bin	
-	g++ -g -c -o bin/main.o src/main.cpp -lncurses 
+	g++ -g -c -o bin/main.o src/main.cpp 
