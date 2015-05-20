@@ -1,5 +1,4 @@
-#include <curses.h>
-#include <ncurses/ncurses.h>
+#include <ncurses.h>
 
 // #include <quiz.h>
 
