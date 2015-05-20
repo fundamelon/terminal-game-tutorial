@@ -1,0 +1,37 @@
+1 replace letter at cursor with i
+	ri
+2 automatically format tabs in entire code.
+	gg=G
+3 roll back code to how it was 15 minutes ago
+	:earlier 15m
+4 insert date into current line
+	:.!date
+	:r!date
+5 save and close
+	:wq
+	ZZ
+	:x
+6 copy current word
+	Bye
+
+7 find word under cursor
+	*
+	#
+	g*
+	g#
+8 list all of your commands
+	:history
+9 search line beginning with foo
+	/^foo
+10 highlight to end of line and copy
+	v$y
+11 append at end of line
+	A
+12 delete character at cursor
+	x
+13 undo
+	u
+14 delete current line 
+	dd
+15 replace all instances of OLD with NEW but ask for confirmation
+	:%s/OLD/NEW/gc
