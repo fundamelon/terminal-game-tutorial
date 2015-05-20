@@ -1,7 +1,12 @@
 # quiz-game-tutorial
 This is a tutorial on how to create a simple quiz game using Curses.
 It will guide you through several steps, each incrementally adding features.
-The goal is to demonstrate proper software design practices, as well as to create an entertaining and educational final product.
+
+Project goals:
+- to demonstrate proper software design practices
+- to show 
+- to learn a bit of history while we`re at it
+- to create an entertaining and educational final product for others to enjoy!
 
 
 #### [Part 1](part1): Starting out, initializing curses

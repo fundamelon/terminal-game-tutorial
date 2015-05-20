@@ -7,6 +7,6 @@ int run();
 void skipMenu(bool);
 void setDifficulty(int);
 void setTime(int);
-void setQuestionSet(std::string);
+void setQuestionSet(const char*);
 
 #endif
