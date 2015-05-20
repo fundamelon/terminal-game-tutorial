@@ -13,13 +13,10 @@ The goal is to demonstrate proper software design practices, as well as to creat
 #### [Part 3](part3): Making a quiz
 
 
-#### Part 4
-Under construction
+#### Part 4: Under construction
 
 
-## Part 5
-Under construction
+#### Part 5: Under construction
 
 
-## Part 6
-Under construction
+#### Part 6: Under construction
