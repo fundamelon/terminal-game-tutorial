@@ -28,7 +28,7 @@ Add a simple makefile:
 bin/main: bin/main.o
         g++ -g -o bin/main bin/main.o -std=c++11 -Wall -pedantic -lncurses
 
-bin/main.o:
+bin/main.o: src/main.cpp
         mkdir -p bin
         g++ -g -c -o bin/main.o src/main.cpp
 ```
@@ -43,10 +43,24 @@ You'll need to run ```sudo apt-get install libncurses5-dev``` (or whichever is t
 *note to ucr students on hammer: this may not compile with cs100 settings active*
 
 
-### Getting started with ncurses
+### 1.3: Getting started with ncurses
 
+Adding the following code to our main function:
+```c++
+    WINDOW *wnd;
+    wnd = initscr();
+    cbreak();
+    noecho();
+    clear();
+    refresh();
 
+    wait(1);
+```
+and running it results in a blank screen.  Here we see several important effects:
+- keyboard buttons pressed are not output to the screen
+- ending the program returns the terminal to its previous state
 
+This is important because a simple call such as printf("\033c") or system("clear") would modify the terminal itself - but here, ncurses takes control and reserves it for us.
 
 ### 
 

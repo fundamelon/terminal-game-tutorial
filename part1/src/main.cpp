@@ -15,6 +15,7 @@ int main(int argc, char **argv){
     clear();
     refresh();
 
+    while(1);
 
     endwin();
     return 0;
