@@ -91,7 +91,7 @@ Next, a simple for loop will invoke ```addch()``` twice - once to print the text
 Finally, it is important to call ```refresh()``` whenever any changes made should show up on the screen.
 Any changes using curses will not show up until you call this function.
 
-![final product](i.imgur.com/5CAL6Hj.gif)
+![final product](.img/part1_4.gif)
 
 
 This folder contains source code for part 1.
