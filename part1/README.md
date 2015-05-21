@@ -1,11 +1,11 @@
 # PART 1
 
-### An introduction
+### 1.1: A brief introduction of everything
 
 History goes here
 
 
-### Get comfortable
+### 1.2: Getting comfortable in our format
 This project will follow a standard structure which you should already be familiar with.
 All source code belongs in ```src```, and all binary files are generated in ```bin```.
 Let's start by creating a file, src/main.cpp:
@@ -43,7 +43,7 @@ You'll need to run ```sudo apt-get install libncurses5-dev``` (or whichever is t
 *note to ucr students on hammer: this may not compile with cs100 settings active*
 
 
-### Getting started
+### Getting started with ncurses
 
 
 
