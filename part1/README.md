@@ -63,14 +63,35 @@ and compiling + running ```bin/main``` results in a blank screen.  Here we see s
 This is important because a simple call such as printf("\033c") or system("clear") would modify the terminal and its history - but here, ncurses takes control and reserves it for us.
 See [here](hughm.cs.ukzn.ac.za/~murrellh/os/notes/ncurses.html#init)
 and [here](tldp.org/HOWTO/NCURSES-Programming-HOWTO/helloworld.html)
-for more detailed explanations of these functions.
+for detailed explanations of these functions.
 
-We are now ready to write our obligatory "Hello World"!
+We are now ready for our obligatory "Hello World"!
 
 ### 1.4: Hello terminal
 
+Before our infinite loop, we add this code to the main:
+```c++
+move(5, 5);
 
+std::string text = "Hello world!";
+for(int i = 0; i < text.size(); i++) {
+    addch(text[i]);
+    addch(' ');
+}
 
+refresh();
+```
+
+The ```move(5, 5)``` command moves the cursor to the specified ```(y, x)``` position.
+Remember, curses is built entirely on this character-oriented coordinate system.
+
+Next, a simple for loop will invoke ```addch()``` twice - once to print the text char, and once to print a space.  
+```addch()``` will print a character at the current cursor position, and advance it by 1 space.
+
+Finally, it is important to call ```refresh()``` whenever any changes made should show up on the screen.
+Any changes using curses will not show up until you call this function.
+
+![final product](i.imgur.com/5CAL6Hj.gif)
 
 
 This folder contains source code for part 1.
