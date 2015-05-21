@@ -87,6 +87,7 @@ Remember, curses is built entirely on this character-oriented coordinate system.
 
 Next, a simple for loop will invoke ```addch()``` twice - once to print the text char, and once to print a space.  
 ```addch()``` will print a character at the current cursor position, and advance it by 1 space.
+Don't forget to ```include <string>```!
 
 Finally, it is important to call ```refresh()``` whenever any changes made should show up on the screen.
 Any changes using curses will not show up until you call this function.

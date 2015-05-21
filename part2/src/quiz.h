@@ -2,6 +2,7 @@
 #define QUIZ_H
 
 
+int init();
 int run();
 
 void skipMenu(bool);
