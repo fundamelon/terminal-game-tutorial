@@ -18,8 +18,6 @@ void setQuestionSet(const char*);
 along with standard compilation checks.  
 The purposes of the latter four functions will be explained later - for now think of them as simple "setters".
 
-Don't forget - it's necessary to ```include "quiz.h"``` in your main.cpp.
-
 Now we will turn our project upside-down.  In a file called quiz.cpp, 
 ```c++
 #include <string>
@@ -60,18 +58,21 @@ Speaking of which, we go back to there now and replace the entire thing with:
     run();
     return 0;
 ```
-We can also remove all includes, save for ```#include "quiz.h"```.  
+We can also remove all includes, and add ```#include "quiz.h"```.  
 
 Finally, add a makefile target for quiz.cpp. 
 The project should now behave the same as our Hello World program from last section.
-Several things to note:
+There are several things to note:
 
-First off, we are structuring the main and quiz code in a way that makes sense to either object-oriented or functional approaches.  
+- First off, we are structuring the main and quiz code in a way that makes sense to either object-oriented or functional approaches.  
 If you wish, you can make quiz.h a class template, and convert everything to object-oriented format.
-The function init() can therefore be easily made a constructor.
+The function ```init()``` can therefore be easily made a constructor, and vice versa.
 
-It is important to note the role of main.cpp.  
-its purpose will be to parse command line input and pass the data along to the quiz, which will adjust accordingly.
+- It is important to note the role of main.cpp.  
+Its purpose will be to parse command line input and pass the data along to the quiz, which will adjust accordingly.
 This compartmentalizes code that would be very cluttered otherwise.  However, you are still welcome to use any approach you are comfortable with.
 
-Note also that we avoid using any special types in quiz.h, to avoid having to add ```#include```s into the header itself.
+- Note also that we avoid using any special types in quiz.h, to avoid having to add includes into the header itself.
+
+### 2.2: Shooting for a working program
+

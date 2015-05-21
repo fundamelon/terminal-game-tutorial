@@ -1,10 +1,11 @@
 # quiz-game-tutorial
-This is a tutorial on how to create a simple quiz game using c++ and ncurses.
-It will guide you through several steps, each incrementally adding features.
+This is a tutorial on how to create a simple quiz game while learning c++ and ncurses, as well as various GNU utilities such as getopt.
+It will guide you through several distinct parts, each incrementally adding features.
 
 Project goals:
 - to demonstrate proper software design practices (using the UNIX philosophy)
 - to show and utilize the power of ncurses
+- to demonstrate the use of GNU getopt 
 - to learn a bit of history while we're here
 - to collect quality, fleshed-out question sets
 - to inspire and create a launch platform for others' future projects
