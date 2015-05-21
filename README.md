@@ -4,10 +4,10 @@ It will guide you through several distinct parts, each incrementally adding feat
 
 Project goals:
 - to demonstrate proper software design practices (using the UNIX philosophy)
-- to show and utilize the power of ncurses
-- to demonstrate the use of GNU getopt 
+- to show and utilize the power of [ncurses](http://www.gnu.org/software/ncurses/)
+- to demonstrate the use of [GNU getopt](http://man7.org/linux/man-pages/man3/getopt.3.html)
 - to learn a bit of history while we're here
-- to collect quality, fleshed-out question sets
+- to collect quality, fleshed-out [question sets](questions)
 - to inspire and create a launch platform for others' future projects
 - to create an entertaining and educational final product for others to use and enjoy
 
