@@ -95,7 +95,7 @@ Any changes using curses will not show up until you call this function.
 
 ![final product](.img/part1_4.gif)
 
-[Part 2](../part2) of the series deals with basic structure of our quiz application.
+We are now ready to start building our game!  [Part 2](../part2) of the series deals with basic structure of our quiz application.
 
 
 
