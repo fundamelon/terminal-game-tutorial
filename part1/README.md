@@ -56,13 +56,20 @@ Adding the following code to our main function:
 
     wait(1);
 ```
-and running it results in a blank screen.  Here we see several important effects:
+and compiling + running ```bin/main``` results in a blank screen.  Here we see several important effects:
 - keyboard buttons pressed are not output to the screen
 - ending the program returns the terminal to its previous state
 
-This is important because a simple call such as printf("\033c") or system("clear") would modify the terminal itself - but here, ncurses takes control and reserves it for us.
+This is important because a simple call such as printf("\033c") or system("clear") would modify the terminal and its history - but here, ncurses takes control and reserves it for us.
+See [here](hughm.cs.ukzn.ac.za/~murrellh/os/notes/ncurses.html#init)
+and [here](tldp.org/HOWTO/NCURSES-Programming-HOWTO/helloworld.html)
+for more detailed explanations of these functions.
 
-### 
+We are now ready to write our obligatory "Hello World"!
+
+### 1.4: Hello terminal
+
+
 
 
 
