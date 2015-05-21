@@ -15,6 +15,10 @@ Project goals:
 This tutorial series is meant to be read in sequence, with the reader programming as we go along.
 Each part of the tutorial series is an individual project - you can ```make``` and run it if you wish.  All source code is provided.
 
+Of course, there are many different ways of solving almost any programming task.  
+Therefore, it is recommended that the reader attempt to first skim through a tutorial, then attempt to implement the content in their own style.  
+The provided source code is by no means "perfect", and is intended as a guide.
+
 
 #### [Part 1](part1): Starting out, working with ncurses
 
@@ -38,4 +42,10 @@ Each part of the tutorial series is an individual project - you can ```make``` a
 ```git clone https://github.com/fundamelon/quiz-game-tutorial.git``` in your directory of choice.
 
 ## Issues
-If you notice that anything in the tutorials is wrong, badly written, or downright condescending, feel free to post an issue, e-mail any of us, or even fork and make the changes yourself.
+If you notice that anything in the tutorials is wrong, badly written, or downright condescending, feel free to
+[post an issue](https://github.com/fundamelon/quiz-game-tutorial/issues?q=is%3Aopen+is%3Aissue)
+, 
+[message any of us](https://github.com/fundamelon/quiz-game-tutorial/network/members)
+, or even fork and make the changes yourself!
+
+Also, if you're sure that there's a totally better way of doing anything we did in the source code, you are welcome to [contribute.](https://github.com/fundamelon/quiz-game-tutorial/pulls)
