@@ -91,7 +91,12 @@ Next, a simple for loop will invoke ```addch()``` twice - once to print the text
 Finally, it is important to call ```refresh()``` whenever any changes made should show up on the screen.
 Any changes using curses will not show up until you call this function.
 
+#### Final product
+
 ![final product](.img/part1_4.gif)
 
+[Part 2](../part2) of the series deals with basic structure of our quiz application.
 
-This folder contains source code for part 1.
+
+
+This folder contains all project files for part 1.
