@@ -1,5 +1,5 @@
-# quiz-game-tutorial
-This is a tutorial on how to create a simple quiz game while learning c++ and ncurses, as well as various GNU utilities such as getopt.
+# terminal-game-tutorial
+This is a tutorial on how to create a simple terminal game while learning c++ and ncurses, as well as various GNU utilities such as getopt.
 It will guide you through several distinct parts, each incrementally adding features.
 
 Project goals:
@@ -7,7 +7,6 @@ Project goals:
 - to show and utilize the power of [ncurses](http://www.gnu.org/software/ncurses/)
 - to demonstrate the use of [GNU getopt](http://man7.org/linux/man-pages/man3/getopt.3.html)
 - to learn a bit of history while we're here
-- to collect quality, fleshed-out [question sets](questions)
 - to inspire and create a launch platform for others' future projects
 - to create an entertaining and educational final product for others to use and enjoy
 
@@ -40,13 +39,13 @@ The provided source code is by no means "perfect", and is intended as a guide.
 
 
 ## Installation
-```git clone https://github.com/fundamelon/quiz-game-tutorial.git``` in your directory of choice.
+```git clone https://github.com/fundamelon/terminal-game-tutorial.git``` in your directory of choice.
 
 ## Issues
 If you notice that anything in the tutorials is wrong, badly written, or downright condescending, feel free to
-[post an issue](https://github.com/fundamelon/quiz-game-tutorial/issues?q=is%3Aopen+is%3Aissue)
+[post an issue](https://github.com/fundamelon/terminal-game-tutorial/issues?q=is%3Aopen+is%3Aissue)
 , 
-[message any of us](https://github.com/fundamelon/quiz-game-tutorial/network/members)
+[message any of us](https://github.com/fundamelon/terminal-game-tutorial/network/members)
 , or even fork and make the changes yourself!
 
-Also, if you're sure that there's a totally better way of doing anything we did in the source code, you are welcome to [contribute.](https://github.com/fundamelon/quiz-game-tutorial/pulls)
+Also, if you're sure that there's a totally better way of doing anything we did in the source code, you are welcome to [contribute.](https://github.com/fundamelon/terminal-game-tutorial/pulls)
