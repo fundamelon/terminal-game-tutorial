@@ -1,7 +1,7 @@
 #include <string>
 #include <ncurses.h>
 
-#include "quiz.h"
+#include "game.h"
 
 
 

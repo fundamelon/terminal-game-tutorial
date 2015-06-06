@@ -1,4 +1,4 @@
-# terminal-game-tutorial
+#terminal-game-tutorial
 This is a tutorial on how to create a simple terminal game while learning c++ and ncurses, as well as various GNU utilities such as getopt.
 It will guide you through several distinct parts, each incrementally adding features.
 
@@ -20,13 +20,13 @@ Therefore, it is recommended that the reader attempt to first skim through a tut
 The provided source code is by no means "perfect", and is intended as a guide.
 
 
-#### [Part 1](part1): Starting out, working with ncurses
+#### [Part 1](part1): Starting out with ncurses
 
 
-#### [Part 2](part2): Structure and the state machine
+#### [Part 2](part2): Project structure and menus
 
 
-#### [Part 3](part3): Making a quiz
+#### [Part 3](part3): Introducing some game elements
 
 
 #### Part 4: Under construction
