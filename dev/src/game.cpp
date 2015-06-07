@@ -28,23 +28,44 @@ int init() {
 void run() {
 
     player.disp_char = 'o';
+    player.pos = {6, 6};
     int in_char;
-
-    move(5, 5);
-    std::string text = "loading...";
-    
-    for(unsigned int i = 0; i < text.size(); i++) {
-        addch(text[i]);
-        addch(' ');
-    }
-
-    refresh();
+    bool exit_requested = false;
+    curs_set(0);
 
     while(1) {
         in_char = wgetch(wnd);
-        if(in_char == 27) break;
-        mvaddch(6, 5, in_char);
+
+        mvaddch(player.pos.x, player.pos.y, ' ');
+
+        switch(in_char) {
+            case 'q': 
+                exit_requested = true; 
+                break;
+            case KEY_UP:
+            case 'w':
+                player.pos.x -= 1;
+                break;
+            case KEY_DOWN:
+            case 's':
+                player.pos.x += 1;
+                break;
+            case KEY_LEFT: 
+            case 'a':
+                player.pos.y -= 1; 
+                break;
+            case KEY_RIGHT: 
+            case 'd':
+                player.pos.y += 1; 
+                break;
+            default: 
+                break;
+        }
+
+        mvaddch(player.pos.x, player.pos.y, player.disp_char);
         refresh();
+
+        if(exit_requested) break;
     };
 
     endwin();
