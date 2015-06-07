@@ -3,7 +3,7 @@
 
 
 int init();
-int run();
+void run();
 
 void skipMenu(bool);
 void setDifficulty(int);

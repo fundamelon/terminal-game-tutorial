@@ -16,16 +16,18 @@ int init() {
     noecho();
     clear();
     refresh();
+
+    return 0;
 }
 
 
 
-int run() {
+void run() {
 
     move(5, 5);
 
     std::string text = "Hello world!";
-    for(int i = 0; i < text.size(); i++) {
+    for(unsigned int i = 0; i < text.size(); i++) {
         addch(text[i]);
         addch(' ');
     }
