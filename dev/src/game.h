@@ -32,4 +32,6 @@ void skipMenu(bool);
 void setDifficulty(int);
 void setTime(int);
 
+void setColorscheme(short fg, short bg);
+
 #endif

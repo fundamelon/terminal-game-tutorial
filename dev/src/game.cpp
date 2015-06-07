@@ -20,6 +20,23 @@ int init() {
     clear();
     refresh();
 
+    // enable function keys
+    keypad(wnd, true);
+
+    // disable input blocking
+    nodelay(wnd, true);
+
+    // enable color
+    if(!has_colors()) {
+        endwin();
+        printf("ERROR: Terminal does not support color.\n");
+        exit(1);
+    }
+
+    start_color();
+
+    setColorscheme(COLOR_BLACK, COLOR_CYAN);
+
     return 0;
 }
 
@@ -27,7 +44,7 @@ int init() {
 
 void run() {
 
-    player.disp_char = 'o';
+    player.disp_char = '0';
     player.pos = {6, 6};
     int in_char;
     bool exit_requested = false;
@@ -66,9 +83,16 @@ void run() {
         refresh();
 
         if(exit_requested) break;
+
+        //nanosleep({0, 1000000000}, NULL);
+        usleep(10000);
     };
 
     endwin();
 }
 
 
+void setColorscheme(short fg, short bg) {
+    init_pair(1, fg, bg);
+    wbkgd(wnd, COLOR_PAIR(1));
+}
