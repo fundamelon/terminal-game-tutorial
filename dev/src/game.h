@@ -24,6 +24,9 @@ struct {
 } player;
 
 
+int cur_width = 0, cur_height = 0;
+
+
 
 int init();
 void run();

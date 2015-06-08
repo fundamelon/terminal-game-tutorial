@@ -36,7 +36,7 @@ int init() {
 
     start_color();
 
-    setColorscheme(COLOR_BLACK, COLOR_CYAN);
+    setColorscheme(COLOR_WHITE, COLOR_BLACK);
 
     return 0;
 }
@@ -45,9 +45,7 @@ int init() {
 
 void run() {
 
-    int x,y; // store window dimensions to check if resizing is needed
-
-    getmaxyx(wnd,x,y);
+    getmaxyx(wnd, cur_width, cur_height);
     
     player.disp_char = '0';
     player.pos = {6, 6};
@@ -57,7 +55,7 @@ void run() {
 
     while(1) {
     
-        winResize(x, y);
+        winResize(cur_width, cur_height);
     
         in_char = wgetch(wnd);
 
@@ -100,10 +98,13 @@ void run() {
 }
 
 
+
 void setColorscheme(short fg, short bg) {
     init_pair(1, fg, bg);
     wbkgd(wnd, COLOR_PAIR(1));
 }
+
+
 
 void setFrame(){
     // creates simple frame around window composed of vertical and horizontal lines
@@ -115,18 +116,20 @@ void setFrame(){
     
 }
 
-void winResize(int &orig_x, int &orig_y){
-    int new_x, new_y;
 
-    getmaxyx(wnd, new_x, new_y); 
+
+void winResize(int &orig_width, int &orig_height){
+    int new_width, new_height;
+
+    getmaxyx(wnd, new_width, new_height); 
 
     // if window dimensions have changed, update border
-    if(new_x != orig_x || new_y != orig_y){
-        orig_x = new_x;
-        orig_y = new_y;
+    if(new_width != orig_width || new_height != orig_height){
+        orig_width = new_width;
+        orig_height = new_height;
         
-        wresize(wnd, new_y, 0);
-        mvwin(wnd, new_y, 0);
+        wresize(wnd, new_height, 0);
+        mvwin(wnd, new_height, 0);
         
         wclear(wnd);
         setFrame();
