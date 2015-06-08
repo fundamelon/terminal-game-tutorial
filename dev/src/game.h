@@ -33,6 +33,7 @@ void setDifficulty(int);
 void setTime(int);
 
 void setColorscheme(short fg, short bg);
+void winResize(int &orig_x, int &orig_y);
 void setFrame();
 
 #endif
