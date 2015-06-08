@@ -19,6 +19,7 @@ int init() {
     noecho();
     clear();
     refresh();
+    setFrame();
 
     // enable function keys
     keypad(wnd, true);
@@ -44,6 +45,10 @@ int init() {
 
 void run() {
 
+    int x,y; // store window dimensions to check if resizing is needed
+
+    getmaxyx(wnd,x,y);
+    
     player.disp_char = '0';
     player.pos = {6, 6};
     int in_char;
@@ -51,6 +56,9 @@ void run() {
     curs_set(0);
 
     while(1) {
+    
+        winResize(x, y);
+    
         in_char = wgetch(wnd);
 
         mvaddch(player.pos.x, player.pos.y, ' ');
@@ -95,4 +103,33 @@ void run() {
 void setColorscheme(short fg, short bg) {
     init_pair(1, fg, bg);
     wbkgd(wnd, COLOR_PAIR(1));
+}
+
+void setFrame(){
+    // creates simple frame around window composed of vertical and horizontal lines
+    box(wnd, 0, 0);
+    
+    // border characters can be set manually using the border function
+    // border( wnd, leftside, rightside, topside, bottom side, tlcorner, 
+    //                                      trcorner, blcorner, brcorner);
+    
+}
+
+void winResize(int &orig_x, int &orig_y){
+    int new_x, new_y;
+
+    getmaxyx(wnd, new_x, new_y); 
+
+    // if window dimensions have changed, update border
+    if(new_x != orig_x || new_y != orig_y){
+        orig_x = new_x;
+        orig_y = new_y;
+        
+        wresize(wnd, new_y, 0);
+        mvwin(wnd, new_y, 0);
+        
+        wclear(wnd);
+        setFrame();
+    }
+
 }
