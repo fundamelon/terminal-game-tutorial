@@ -48,7 +48,15 @@ void run() {
     getmaxyx(wnd, cur_width, cur_height);
 
     // define area for movement
-    rect game_area = { { 1, 1}, { 20, 80 } };
+    rect game_area = { { 1, 1}, { 76, 20 } };
+
+    // define area for screen (default terminal size)
+    rect screen_area = { { 0, 0 }, { 80, 24 } };
+
+    // set screen size accordingly
+    wresize(wnd, screen_area.height(), screen_area.width());
+    setFrame();
+
     
     player.disp_char = '0';
     player.pos = {1, 6};
@@ -57,10 +65,12 @@ void run() {
     curs_set(0);
 
     while(1) {
-    
-        winResize(cur_width, cur_height);
+   
+        // TODO: Give warning message if screen is too small!
+        //winResize(cur_width, cur_height);
     
         in_char = wgetch(wnd);
+        in_char = tolower(in_char);
 
         mvaddch(player.pos.y, player.pos.x, ' ');
 
@@ -115,12 +125,13 @@ void setColorscheme(short fg, short bg) {
 
 void setFrame(){
     // creates simple frame around window composed of vertical and horizontal lines
+    attron(A_BOLD);
     box(wnd, 0, 0);
+    attroff(A_BOLD);
     
     // border characters can be set manually using the border function
     // border( wnd, leftside, rightside, topside, bottom side, tlcorner, 
     //                                      trcorner, blcorner, brcorner);
-    
 }
 
 

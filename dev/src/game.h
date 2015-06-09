@@ -22,10 +22,13 @@ typedef struct {
     vec2i offset;
     vec2i bounds;
 
-    uint_fast16_t top() { return offset.x; }
-    uint_fast16_t left() { return offset.y; }
-    uint_fast16_t right() { return bounds.y; }
-    uint_fast16_t bot() { return bounds.x; }
+    uint_fast16_t top() { return offset.y; }
+    uint_fast16_t bot() { return offset.y + bounds.y; }
+    uint_fast16_t left() { return offset.x; }
+    uint_fast16_t right() { return offset.x + bounds.x; }
+
+    uint_fast16_t width() { return bounds.x; }
+    uint_fast16_t height() { return bounds.y; }
 } rect;
 
 
