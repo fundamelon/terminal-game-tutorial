@@ -222,12 +222,25 @@ void run() {
 
 
         // draw UI elements
+        // energy bar
         wmove(main_wnd, 20, 1);
         whline(main_wnd, ' ', 25); // health bar is 25 chars long
         wmove(main_wnd, 20, 1);
         drawEnergyBar(player.energy);
-        mvwprintw(main_wnd, 21, 1, "- - - E N E R G Y - - //");
 
+        // draw static string to hold percentage
+        mvwprintw(main_wnd, 21, 1, " - E N E R G Y -      //");
+
+        // draw numeric percentage
+        wattron(main_wnd, A_BOLD);
+        if(player.energy <= 25) {
+            wattron(main_wnd, COLOR_PAIR(4));
+            if(tick % 100 < 50)
+                mvwprintw(main_wnd, 21, 18, "%i%%", player.energy); 
+            wattroff(main_wnd, COLOR_PAIR(4));
+        } else
+            mvwprintw(main_wnd, 21, 18, "%i%%", player.energy); 
+        wattroff(main_wnd, A_BOLD);
 
         //usleep(100);
 
@@ -298,7 +311,7 @@ void winResize(int &orig_width, int &orig_height){
 void enemyAI(){
 
     for(size_t i = 0; i < enemies.size(); i++){ // move each enemy down
-        if(enemies.at(i).pos.y > game_area.height()){ // delete from vector when enemy reaches bottom
+        if(enemies.at(i).pos.y > game_area.bot()){ // delete from vector when enemy reaches bottom
         //    mvwaddch(game_wnd, n.at(i).pos.y , n.at(i).pos.x, ' ');
             enemies.erase(enemies.begin() + i);
         }
@@ -320,7 +333,7 @@ void enemyAI(){
 void moveStars() {
 
     for(size_t i = 0; i < stars.size(); i++) {
-        if(stars.at(i).pos.y > game_area.height())
+        if(stars.at(i).pos.y > game_area.bot())
             stars.erase(stars.begin() + i);
 
         stars.at(i).pos.y += 1;
@@ -350,7 +363,9 @@ void drawEnergyBar(int a) {
             col_pair = 4; // red
 
         wattron(main_wnd, COLOR_PAIR(col_pair));
+        wattron(main_wnd, A_BOLD);
         waddch(main_wnd, '/');
+        wattroff(main_wnd, A_BOLD);
         wattroff(main_wnd, COLOR_PAIR(col_pair));
     }
 }
