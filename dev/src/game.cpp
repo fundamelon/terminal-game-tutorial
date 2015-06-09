@@ -46,9 +46,12 @@ int init() {
 void run() {
 
     getmaxyx(wnd, cur_width, cur_height);
+
+    // define area for movement
+    rect game_area = { { 1, 1}, { 20, 80 } };
     
     player.disp_char = '0';
-    player.pos = {6, 6};
+    player.pos = {1, 6};
     int in_char;
     bool exit_requested = false;
     curs_set(0);
@@ -59,7 +62,7 @@ void run() {
     
         in_char = wgetch(wnd);
 
-        mvaddch(player.pos.x, player.pos.y, ' ');
+        mvaddch(player.pos.y, player.pos.x, ' ');
 
         switch(in_char) {
             case 'q': 
@@ -67,25 +70,29 @@ void run() {
                 break;
             case KEY_UP:
             case 'w':
-                player.pos.x -= 1;
+                if(player.pos.y > game_area.top())
+                    player.pos.y -= 1;
                 break;
             case KEY_DOWN:
             case 's':
-                player.pos.x += 1;
+                if(player.pos.y <= game_area.bot())
+                    player.pos.y += 1;
                 break;
             case KEY_LEFT: 
             case 'a':
-                player.pos.y -= 1; 
+                if(player.pos.x > game_area.left())
+                    player.pos.x -= 1;
                 break;
             case KEY_RIGHT: 
             case 'd':
-                player.pos.y += 1; 
+                if(player.pos.x <= game_area.right())
+                    player.pos.x += 1; 
                 break;
             default: 
                 break;
         }
 
-        mvaddch(player.pos.x, player.pos.y, player.disp_char);
+        mvaddch(player.pos.y, player.pos.x, player.disp_char); // (y, x)
         refresh();
 
         if(exit_requested) break;

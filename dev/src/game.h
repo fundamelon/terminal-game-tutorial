@@ -17,6 +17,18 @@ typedef struct {
 } vec2i;
 
 
+// simple rectangle type
+typedef struct {
+    vec2i offset;
+    vec2i bounds;
+
+    uint_fast16_t top() { return offset.x; }
+    uint_fast16_t left() { return offset.y; }
+    uint_fast16_t right() { return bounds.y; }
+    uint_fast16_t bot() { return bounds.x; }
+} rect;
+
+
 struct {
     vec2i pos;
     vec2i dir;
