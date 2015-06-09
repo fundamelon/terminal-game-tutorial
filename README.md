@@ -1,7 +1,7 @@
 #terminal-game-tutorial
 This is a tutorial on how to create a simple terminal game while learning c++ and ncurses, as well as various GNU utilities such as getopt.
 It will guide you through several distinct parts, each incrementally adding features.
-
+![final product](.img/spacegame1.gif)
 Project goals:
 - to demonstrate proper software design practices (using the UNIX philosophy)
 - to show and utilize the power of [ncurses](http://www.gnu.org/software/ncurses/)
