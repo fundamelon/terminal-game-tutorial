@@ -3,6 +3,9 @@
 
 #include <cstdint>
 #include <string>
+#include <stdlib.h>
+#include <time.h>
+#include <vector>
 
 #include "game.h"
 
@@ -16,7 +19,6 @@ struct {
     vec2i dir;
     char disp_char;
 } player;
-
 
 int init() {
 
@@ -51,7 +53,7 @@ int init() {
 
 void run() {
 
-
+    srand(time(0));
     vec2ui cur_size = { 0, 0 };
     getmaxyx(wnd, cur_size.x, cur_size.y);
 
@@ -64,6 +66,7 @@ void run() {
     // set screen size accordingly
     wresize(wnd, screen_area.height(), screen_area.width());
     setFrame();
+    int wait = 10;
 
     
     player.disp_char = '0';
@@ -82,6 +85,10 @@ void run() {
         in_char = tolower(in_char);
 
         mvaddch(player.pos.y, player.pos.x, ' ');
+        if(wait == 10){
+            enemyAI();
+            wait = 0;
+        }
 
         switch(in_char) {
             case 'q': 
@@ -118,6 +125,7 @@ void run() {
 
         //nanosleep({0, 1000000000}, NULL);
         usleep(10000);
+        wait++;
     };
 
     endwin();
@@ -162,4 +170,23 @@ void winResize(int &orig_width, int &orig_height){
         setFrame();
     }
 
+}
+
+void enemyAI(){
+    int pos = rand() % 76 + 1; // randomize enemy x position spawn 
+
+    enemy e;
+    e.pos.x = pos;
+    e.pos.y = 1;
+    n.push_back(e);
+
+    for(size_t i = 0; i < n.size(); i++){ // move each enemy down
+        if(n.at(i).pos.y == 22){ // delete from vector when enemy reaches bottom
+            mvaddch(n.at(i).pos.y , n.at(i).pos.x, ' ');
+            n.erase(n.begin() + i);
+        }
+        mvaddch(n.at(i).pos.y, n.at(i).pos.x, ' '); // remove enemy from prev pos
+        n.at(i).pos.y += 1; // move enemy down 
+        mvaddch(n.at(i).pos.y, n.at(i).pos.x, '*');
+    }
 }
