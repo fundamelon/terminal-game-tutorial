@@ -14,7 +14,9 @@ WINDOW* wnd;
 struct {
     vec2i pos;
     vec2i dir;
+    vec2ui bounds;
     char disp_char;
+    char ship_type;
 } player;
 
 
@@ -56,23 +58,29 @@ void run() {
     getmaxyx(wnd, cur_size.x, cur_size.y);
 
     // define area for movement
-    rect game_area = { { 1, 1}, { 76, 20 } };
+    rect game_area = { { 2, 1}, { 74, 20 } };
 
     // define area for screen (default terminal size)
     rect screen_area = { { 0, 0 }, { 80, 24 } };
 
     // set screen size accordingly
     wresize(wnd, screen_area.height(), screen_area.width());
-    setFrame();
 
     
-    player.disp_char = '0';
-    player.pos = {1, 6};
+    player.disp_char = 'o';
+    player.pos = {20, 20};
+    player.bounds = { 3, 2 }; // player is 3 wide, 2 tall
+
     int in_char;
     bool exit_requested = false;
     curs_set(0);
 
     while(1) {
+
+        //werase(wnd);
+        move(0, 0);
+        for(int i = 0; i < 80 * 24; i++) addch(' ');
+        setFrame();
    
         // TODO: Give warning message if screen is too small!
         if(cur_size.x > screen_area.width() || cur_size.y > screen_area.height()) {}
@@ -80,8 +88,6 @@ void run() {
     
         in_char = wgetch(wnd);
         in_char = tolower(in_char);
-
-        mvaddch(player.pos.y, player.pos.x, ' ');
 
         switch(in_char) {
             case 'q': 
@@ -112,12 +118,20 @@ void run() {
         }
 
         mvaddch(player.pos.y, player.pos.x, player.disp_char); // (y, x)
+        attron(A_ALTCHARSET);
+        mvaddch(player.pos.y + 1, player.pos.x, ACS_UARROW);
+        //mvaddch(player.pos.y - 1, player.pos.x, ACS_UARROW);
+        mvaddch(player.pos.y, player.pos.x - 1, ACS_LARROW);
+        mvaddch(player.pos.y, player.pos.x + 1, ACS_RARROW);
+        attroff(A_ALTCHARSET);
+
+
         refresh();
 
         if(exit_requested) break;
 
         //nanosleep({0, 1000000000}, NULL);
-        usleep(10000);
+        usleep(10000); // 1 ms
     };
 
     endwin();
