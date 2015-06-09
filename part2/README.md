@@ -8,7 +8,7 @@ To prepare for the rest of the project, we will now prototype some function head
 In a file called src/game.h, we added:
 ```c++
 int init();
-int run();
+void run();
 
 void skipMenu(bool);
 void setDifficulty(int);
@@ -33,10 +33,12 @@ int init() {
     noecho();
     clear();
     refresh();
+
+    return 0;
 }
 
 
-int run() {
+void run() {
 
     move(5, 5);
 
@@ -52,10 +54,13 @@ int run() {
 }
 ```
 Note that this is just code copy-pasted from our original main function.  
-Speaking of which, we go back to there now and replace the entire thing with:
+Speaking of which, we go back to there now and replace all of it with:
 ```c++
-    init();
-    run();
+    int init_status = init();
+
+    if(init_status != 0)
+        run();
+
     return 0;
 ```
 We can also remove all includes, and add ```#include "game.h"```.  

@@ -1,3 +1,4 @@
+#include <cstdint>
 
 #include "game.h"
 
@@ -8,7 +9,10 @@ int main(int argc, char **argv){
     // quiz q;
     // quiz();
     
-    init(); 
-    run();
+    int init_status = init(); 
+
+    if(init_status == 0)
+        run();
+
     return 0;
 }
