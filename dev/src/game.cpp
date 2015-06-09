@@ -227,7 +227,7 @@ void run() {
         if(tick % 7 == 0)
             moveStars();
 
-        if(tick > 1000 && tick % 30 == 0)
+        if(tick > 100 && tick % 20 == 0)
             enemyAI();
     
         player.bounds = { { player.pos.x - 1, player.pos.y }, { 3, 2 } }; 
