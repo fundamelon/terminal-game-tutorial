@@ -11,6 +11,12 @@
 WINDOW* wnd;
 
 
+struct {
+    vec2i pos;
+    vec2i dir;
+    char disp_char;
+} player;
+
 
 int init() {
 
@@ -45,7 +51,9 @@ int init() {
 
 void run() {
 
-    getmaxyx(wnd, cur_width, cur_height);
+
+    vec2ui cur_size = { 0, 0 };
+    getmaxyx(wnd, cur_size.x, cur_size.y);
 
     // define area for movement
     rect game_area = { { 1, 1}, { 76, 20 } };
@@ -67,6 +75,7 @@ void run() {
     while(1) {
    
         // TODO: Give warning message if screen is too small!
+        if(cur_size.x > screen_area.width() || cur_size.y > screen_area.height()) {}
         //winResize(cur_width, cur_height);
     
         in_char = wgetch(wnd);

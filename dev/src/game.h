@@ -32,14 +32,7 @@ typedef struct {
 } rect;
 
 
-struct {
-    vec2i pos;
-    vec2i dir;
-    char disp_char;
-} player;
 
-
-int cur_width = 0, cur_height = 0;
 
 
 
