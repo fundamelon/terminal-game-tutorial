@@ -20,11 +20,12 @@ rect screen_area;
 vec2ui cur_size;
 
 std::vector<enemy> enemies;
+std::vector<star> stars;
 
 struct {
     vec2i pos;
     vec2i dir;
-    vec2ui bounds;
+    rect bounds;
     char disp_char;
     char ship_type;
     bool moving;
@@ -63,12 +64,13 @@ int init() {
     main_wnd = newwin(screen_area.height(), screen_area.width(), 0, 0);
 
     // define area for movement
-    game_area = { { 0, 0}, { screen_area.width() - 3, screen_area.height() - infopanel_height - 5 } };
+    game_area = { { 0, 0}, { screen_area.width() - 2, screen_area.height() - infopanel_height - 5 } };
 
     applyColorscheme(COLOR_WHITE, COLOR_BLACK);
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
     init_pair(3, COLOR_YELLOW, COLOR_BLACK);
     init_pair(4, COLOR_RED, COLOR_BLACK);
+    init_pair(5, COLOR_BLUE, COLOR_BLACK);
 
     // enable function keys
     keypad(main_wnd, true);
@@ -97,11 +99,12 @@ void run() {
     // initialize player
     player.disp_char = 'o';
     player.pos = {10, 10};
-    player.bounds = { 3, 2 }; // player is 3 wide, 2 tall
+    player.bounds = { { player.pos.x - 1, player.pos.y }, { 3, 2 } }; // player is 3 wide, 2 tall
     player.moving = false;
 
     int in_char;
     bool exit_requested = false;
+    bool game_over;
    
     // draw frame around whole screen
     wattron(main_wnd, A_BOLD);
@@ -120,7 +123,7 @@ void run() {
 
         // clear game window
         werase(game_wnd);
-   
+ 
         // TODO: Give warning message if screen is too small!
         if(cur_size.x > screen_area.width() || cur_size.y > screen_area.height()) {}
         //winResize(cur_width, cur_height);
@@ -143,7 +146,7 @@ void run() {
             case KEY_DOWN:
             case 's':
             case 'k':
-                if(player.pos.y < game_area.bot() + 1)
+                if(player.pos.y < game_area.bot() + 2)
                     player.pos.y += 1;
                 break;
             case KEY_LEFT: 
@@ -155,13 +158,31 @@ void run() {
             case KEY_RIGHT: 
             case 'd':
             case 'l':
-                if(player.pos.x < game_area.right() - 1)
+                if(player.pos.x < game_area.right() - 2)
                     player.pos.x += 1; 
                 break;
             default: 
                 break;
         }
 
+
+        if(tick % 10 == 0)
+            moveStars();
+
+        if(tick > 1000 && tick % 30 == 0)
+            enemyAI();
+    
+        player.bounds = { { player.pos.x - 1, player.pos.y }, { 3, 2 } }; 
+
+        // collision detection
+        for(auto e : enemies)
+            if(player.bounds.contains(e.pos))
+                game_over = true;
+
+
+        // draw starry background
+        for(auto s : stars)
+            mvwaddch(game_wnd, s.pos.y, s.pos.x, '.');  
 
         // player ship main body
         wattron(game_wnd, A_BOLD);
@@ -183,12 +204,14 @@ void run() {
 
         wattroff(game_wnd, A_ALTCHARSET);
 
-        if(tick % 10 == 0){
-            enemyAI();
-        }
-        
-        for(auto n : enemies)
+       
+        // draw enemies
+        for(auto n : enemies) {
+            wattron(game_wnd, A_BOLD);
             mvwaddch(game_wnd, n.pos.y, n.pos.x, '*');
+            wattroff(game_wnd, A_BOLD);
+        }
+
 
         //usleep(100);
 
@@ -196,7 +219,7 @@ void run() {
         wrefresh(main_wnd);
         wrefresh(game_wnd);
 
-        if(exit_requested) break;
+        if(exit_requested || game_over) break;
 
         tick++;
 
@@ -255,15 +278,9 @@ void winResize(int &orig_width, int &orig_height){
 
 
 void enemyAI(){
-    int pos = rand() % 76 + 1; // randomize enemy x position spawn 
-
-    enemy e;
-    e.pos.x = pos;
-    e.pos.y = 1;
-    enemies.push_back(e);
 
     for(size_t i = 0; i < enemies.size(); i++){ // move each enemy down
-        if(enemies.at(i).pos.y == 22){ // delete from vector when enemy reaches bottom
+        if(enemies.at(i).pos.y > game_area.height()){ // delete from vector when enemy reaches bottom
         //    mvwaddch(game_wnd, n.at(i).pos.y , n.at(i).pos.x, ' ');
             enemies.erase(enemies.begin() + i);
         }
@@ -272,5 +289,29 @@ void enemyAI(){
         //mvwaddch(game_wnd, n.at(i).pos.y, n.at(i).pos.x, '*');
     }
 
-    wrefresh(game_wnd);
+    int pos = rand() % game_area.width(); // randomize enemy x position spawn 
+
+    enemy e;
+    e.pos.x = pos;
+    e.pos.y = 0;
+    enemies.push_back(e);
+}
+
+
+
+void moveStars() {
+
+    for(size_t i = 0; i < stars.size(); i++) {
+        if(stars.at(i).pos.y > game_area.height())
+            stars.erase(stars.begin() + i);
+
+        stars.at(i).pos.y += 1;
+    }
+
+    int pos = rand() % game_area.width();
+
+    star s;
+    s.pos.x = pos;
+    s.pos.y = 0;
+    stars.push_back(s);  
 }

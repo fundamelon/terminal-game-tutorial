@@ -17,7 +17,7 @@ typedef struct {
 } vec2i;
 
 
-// simple rectangle type
+// simple integer rectangle type
 typedef struct {
     vec2i offset;
     vec2i bounds;
@@ -29,10 +29,17 @@ typedef struct {
 
     uint_fast16_t width() { return bounds.x; }
     uint_fast16_t height() { return bounds.y; }
+
+    bool contains(vec2i a) { return (a.x >= offset.x && a.x < right()) && 
+                                    (a.y >= offset.y && a.y < bot()); }
 } rect;
 
 
 struct enemy{
+    vec2i pos;
+};
+
+struct star {
     vec2i pos;
 };
 
@@ -48,5 +55,6 @@ void applyColorscheme(short fg, short bg);
 void winResize(int &orig_x, int &orig_y);
 void setFrame();
 void enemyAI();
+void moveStars();
 
 #endif
