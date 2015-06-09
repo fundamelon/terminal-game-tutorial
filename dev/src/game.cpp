@@ -104,7 +104,7 @@ void run() {
     player.moving = false;
     player.energy = 100;
 
-    int in_char;
+    int in_char = 0;
     bool exit_requested = false;
     bool game_over = false;
    
@@ -121,6 +121,57 @@ void run() {
     wrefresh(main_wnd);
     wrefresh(game_wnd);
 
+
+    const std::vector<std::string> story_text = { 
+        "Just another Monday, and you're on your way to work...", 
+        "When suddenly...",
+        "You realize you left the oven on!", 
+        "Take a shortcut through that asteroid field!",
+        "Get back to the house before your planet explodes!"
+    };
+
+    mvwprintw(main_wnd, 22, 57, "press SPACE to skip..."); 
+
+    // story mode demo
+    tick = 0;
+    size_t story_part = 0;
+    size_t story_position = 0;
+    while(1) {
+        werase(game_wnd);
+        in_char = wgetch(main_wnd);
+
+        if(tick % 50 == 0)
+            moveStars();
+
+        // draw starry background
+        for(auto s : stars)
+            mvwaddch(game_wnd, s.pos.y, s.pos.x, '.');  
+
+        if(story_position < story_text[story_part].length()) {
+            wattron(main_wnd, A_BOLD);
+            mvwaddch(main_wnd, 20, 5 + story_position, story_text[story_part][story_position]);
+            wattroff(main_wnd, A_BOLD);
+            story_position++;
+        }
+
+        if(in_char == ' ') {
+            story_part++;
+            story_position = 0;
+            mvwhline(main_wnd, 20, 1, ' ', screen_area.width() - 2);
+        }
+
+        if(story_part >= story_text.size()) break;
+        
+        wrefresh(game_wnd);
+
+        tick++;
+        usleep(10000); // 1 ms
+    }
+
+    // white-out
+    mvwhline(main_wnd, 22, 57, ' ', 22); 
+
+    tick = 0;
     while(1) {
 
         // clear game window
@@ -168,7 +219,7 @@ void run() {
         }
 
 
-        if(tick % 10 == 0)
+        if(tick % 7 == 0)
             moveStars();
 
         if(tick > 1000 && tick % 30 == 0)
