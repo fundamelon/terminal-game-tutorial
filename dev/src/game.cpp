@@ -29,6 +29,7 @@ struct {
     char disp_char;
     char ship_type;
     bool moving;
+    int energy;
 } player;
 
 
@@ -101,10 +102,11 @@ void run() {
     player.pos = {10, 10};
     player.bounds = { { player.pos.x - 1, player.pos.y }, { 3, 2 } }; // player is 3 wide, 2 tall
     player.moving = false;
+    player.energy = 100;
 
     int in_char;
     bool exit_requested = false;
-    bool game_over;
+    bool game_over = false;
    
     // draw frame around whole screen
     wattron(main_wnd, A_BOLD);
@@ -175,9 +177,15 @@ void run() {
         player.bounds = { { player.pos.x - 1, player.pos.y }, { 3, 2 } }; 
 
         // collision detection
-        for(auto e : enemies)
-            if(player.bounds.contains(e.pos))
-                game_over = true;
+        for(size_t i = 0; i < enemies.size(); i++) {
+            if(player.bounds.contains(enemies.at(i).pos)) {
+                enemies.erase(enemies.begin() + i);
+                player.energy -= 10;
+            }
+        }
+
+        if(player.energy <= 0)
+            game_over = true;
 
 
         // draw starry background
@@ -213,6 +221,14 @@ void run() {
         }
 
 
+        // draw UI elements
+        wmove(main_wnd, 20, 1);
+        whline(main_wnd, ' ', 25); // health bar is 25 chars long
+        wmove(main_wnd, 20, 1);
+        drawEnergyBar(player.energy);
+        mvwprintw(main_wnd, 21, 1, "- - - E N E R G Y - - //");
+
+
         //usleep(100);
 
         // refresh windows
@@ -231,6 +247,8 @@ void run() {
     delwin(game_wnd);
 
     endwin();
+
+    if(game_over) printf("Game over!\n");
 }
 
 
@@ -315,3 +333,25 @@ void moveStars() {
     s.pos.y = 0;
     stars.push_back(s);  
 }
+
+
+
+void drawEnergyBar(int a) {
+
+    int col_pair = 1;
+    for(int i = 0; i < a; i+=4) {
+        if(i > 100)
+            col_pair = 5; // blue
+        else if(i > 50)
+            col_pair = 2; // green
+        else if(i > 25)
+            col_pair = 3; // yellow
+        else
+            col_pair = 4; // red
+
+        wattron(main_wnd, COLOR_PAIR(col_pair));
+        waddch(main_wnd, '/');
+        wattroff(main_wnd, COLOR_PAIR(col_pair));
+    }
+}
+

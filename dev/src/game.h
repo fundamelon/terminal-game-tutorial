@@ -57,4 +57,6 @@ void setFrame();
 void enemyAI();
 void moveStars();
 
+void drawEnergyBar(int);
+
 #endif
