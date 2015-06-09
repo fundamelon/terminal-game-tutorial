@@ -19,7 +19,7 @@ rect screen_area;
 
 vec2ui cur_size;
 
-std::vector<enemy> n;
+std::vector<enemy> enemies;
 
 struct {
     vec2i pos;
@@ -27,6 +27,7 @@ struct {
     vec2ui bounds;
     char disp_char;
     char ship_type;
+    bool moving;
 } player;
 
 
@@ -42,14 +43,13 @@ int init() {
     clear();
     refresh();
 
+    curs_set(0);
 
     start_color();
 
-    setColorscheme(COLOR_WHITE, COLOR_BLACK);
-
+    // read in window size
     cur_size = { 0, 0 };
     getmaxyx(main_wnd, cur_size.x, cur_size.y);
-
 
     // define area for screen (default terminal size)
     screen_area = { { 0, 0 }, { 80, 24 } };
@@ -57,13 +57,18 @@ int init() {
     // set screen size accordingly
     wresize(main_wnd, screen_area.height(), screen_area.width());
 
+    // initialize window areas
     int infopanel_height = 4;
-
     game_wnd = newwin(screen_area.height() - infopanel_height - 2, screen_area.width() - 2, screen_area.top() + 1, screen_area.left() + 1);
     main_wnd = newwin(screen_area.height(), screen_area.width(), 0, 0);
 
     // define area for movement
     game_area = { { 0, 0}, { screen_area.width() - 3, screen_area.height() - infopanel_height - 5 } };
+
+    applyColorscheme(COLOR_WHITE, COLOR_BLACK);
+    init_pair(2, COLOR_GREEN, COLOR_BLACK);
+    init_pair(3, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(4, COLOR_RED, COLOR_BLACK);
 
     // enable function keys
     keypad(main_wnd, true);
@@ -87,46 +92,44 @@ int init() {
 
 void run() {
 
-    int wait = 10;
-    
+    int tick = 0;
+   
+    // initialize player
     player.disp_char = 'o';
     player.pos = {10, 10};
     player.bounds = { 3, 2 }; // player is 3 wide, 2 tall
+    player.moving = false;
 
     int in_char;
     bool exit_requested = false;
-    curs_set(0);
    
     // draw frame around whole screen
-    attron(A_BOLD);
+    wattron(main_wnd, A_BOLD);
     box(main_wnd, 0, 0);
-    attroff(A_BOLD);
+    wattroff(main_wnd, A_BOLD);
 
     // draw dividing line between game and stats
     wmove(main_wnd, game_area.bot() + 4, 1);
     whline(main_wnd, '-', screen_area.width() - 2);
 
+    // initial draw
     wrefresh(main_wnd);
     wrefresh(game_wnd);
 
     while(1) {
 
+        // clear game window
         werase(game_wnd);
-        //move(0, 0);
-        //for(int i = 0; i < 80 * 24; i++) addch(' ');
    
         // TODO: Give warning message if screen is too small!
         if(cur_size.x > screen_area.width() || cur_size.y > screen_area.height()) {}
         //winResize(cur_width, cur_height);
     
+        // read in input key, if any (non-blocking as defined earlier)
         in_char = wgetch(main_wnd);
         in_char = tolower(in_char);
 
-        if(wait == 10){
-            enemyAI();
-            wait = 0;
-        }
-
+        
         switch(in_char) {
             case 'q': 
                 exit_requested = true; 
@@ -159,24 +162,46 @@ void run() {
                 break;
         }
 
+
+        // player ship main body
+        wattron(game_wnd, A_BOLD);
         mvwaddch(game_wnd, player.pos.y, player.pos.x, player.disp_char); // (y, x)
-        attron(A_ALTCHARSET);
-        mvwaddch(game_wnd, player.pos.y + 1, player.pos.x, ACS_UARROW);
+        wattroff(game_wnd, A_BOLD);
+
+        // player ship accessories
+        wattron(game_wnd, A_ALTCHARSET);
         //mvaddch(player.pos.y - 1, player.pos.x, ACS_UARROW);
         mvwaddch(game_wnd, player.pos.y, player.pos.x - 1, ACS_LARROW);
         mvwaddch(game_wnd, player.pos.y, player.pos.x + 1, ACS_RARROW);
-        attroff(A_ALTCHARSET);
 
-        usleep(100);
+        // animate engine flame :)
+        if(tick / 5 % 3) { // 5 ms cycle, 50% duty
+            wattron(game_wnd, COLOR_PAIR(tick % 2 ? 3 : 4));
+            mvwaddch(game_wnd, player.pos.y + 1, player.pos.x, ACS_UARROW);
+            wattroff(game_wnd, COLOR_PAIR(tick % 2 ? 3 : 4));
+        }
 
+        wattroff(game_wnd, A_ALTCHARSET);
+
+        if(tick % 10 == 0){
+            enemyAI();
+        }
+        
+        for(auto n : enemies)
+            mvwaddch(game_wnd, n.pos.y, n.pos.x, '*');
+
+        //usleep(100);
+
+        // refresh windows
         wrefresh(main_wnd);
         wrefresh(game_wnd);
 
         if(exit_requested) break;
 
+        tick++;
+
         //nanosleep({0, 1000000000}, NULL);
         usleep(10000); // 1 ms
-        wait++;
     };
 
     delwin(main_wnd);
@@ -187,9 +212,10 @@ void run() {
 
 
 
-void setColorscheme(short fg, short bg) {
+void applyColorscheme(short fg, short bg) {
     init_pair(1, fg, bg);
     wbkgd(main_wnd, COLOR_PAIR(1));
+    wbkgd(game_wnd, COLOR_PAIR(1));
 }
 
 
@@ -226,21 +252,25 @@ void winResize(int &orig_width, int &orig_height){
 
 }
 
+
+
 void enemyAI(){
     int pos = rand() % 76 + 1; // randomize enemy x position spawn 
 
     enemy e;
     e.pos.x = pos;
     e.pos.y = 1;
-    n.push_back(e);
+    enemies.push_back(e);
 
-    for(size_t i = 0; i < n.size(); i++){ // move each enemy down
-        if(n.at(i).pos.y == 22){ // delete from vector when enemy reaches bottom
-            mvwaddch(game_wnd, n.at(i).pos.y , n.at(i).pos.x, ' ');
-            n.erase(n.begin() + i);
+    for(size_t i = 0; i < enemies.size(); i++){ // move each enemy down
+        if(enemies.at(i).pos.y == 22){ // delete from vector when enemy reaches bottom
+        //    mvwaddch(game_wnd, n.at(i).pos.y , n.at(i).pos.x, ' ');
+            enemies.erase(enemies.begin() + i);
         }
-        mvwaddch(game_wnd, n.at(i).pos.y, n.at(i).pos.x, ' '); // remove enemy from prev pos
-        n.at(i).pos.y += 1; // move enemy down 
-        mvwaddch(game_wnd, n.at(i).pos.y, n.at(i).pos.x, '*');
+        //mvwaddch(game_wnd, n.at(i).pos.y, n.at(i).pos.x, ' '); // remove enemy from prev pos
+        enemies.at(i).pos.y += 1; // move enemy down 
+        //mvwaddch(game_wnd, n.at(i).pos.y, n.at(i).pos.x, '*');
     }
+
+    wrefresh(game_wnd);
 }

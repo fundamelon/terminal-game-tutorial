@@ -31,6 +31,7 @@ typedef struct {
     uint_fast16_t height() { return bounds.y; }
 } rect;
 
+
 struct enemy{
     vec2i pos;
 };
@@ -43,7 +44,7 @@ void skipMenu(bool);
 void setDifficulty(int);
 void setTime(int);
 
-void setColorscheme(short fg, short bg);
+void applyColorscheme(short fg, short bg);
 void winResize(int &orig_x, int &orig_y);
 void setFrame();
 void enemyAI();
