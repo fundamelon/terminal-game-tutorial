@@ -2,7 +2,6 @@
 #include <ncurses.h>
 
 #include <cstdint>
-#include <iostream>
 #include <string>
 #include <stdlib.h>
 #include <time.h>
@@ -174,19 +173,20 @@ void winResize(int &orig_width, int &orig_height){
 }
 
 void enemyAI(){
-    int pos = rand() % 76 + 1; 
+    int pos = rand() % 76 + 1; // randomize enemy x position spawn 
+
     enemy e;
     e.pos.x = pos;
     e.pos.y = 1;
     n.push_back(e);
-    for(size_t i = 0; i < n.size(); i++){
-        if(n.at(i).pos.y == 22){
+
+    for(size_t i = 0; i < n.size(); i++){ // move each enemy down
+        if(n.at(i).pos.y == 22){ // delete from vector when enemy reaches bottom
             mvaddch(n.at(i).pos.y , n.at(i).pos.x, ' ');
             n.erase(n.begin() + i);
         }
-        mvaddch(n.at(i).pos.y, n.at(i).pos.x, ' ');
-        n.at(i).pos.y += 1; 
+        mvaddch(n.at(i).pos.y, n.at(i).pos.x, ' '); // remove enemy from prev pos
+        n.at(i).pos.y += 1; // move enemy down 
         mvaddch(n.at(i).pos.y, n.at(i).pos.x, '*');
-        refresh();
     }
 }
