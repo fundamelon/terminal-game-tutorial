@@ -65,7 +65,7 @@ int init() {
     main_wnd = newwin(screen_area.height(), screen_area.width(), 0, 0);
 
     // define area for movement
-    game_area = { { 0, 0}, { screen_area.width() - 2, screen_area.height() - infopanel_height - 5 } };
+    game_area = { { 0, 0}, { screen_area.width() - 2, screen_area.height() - infopanel_height - 4 } };
 
     applyColorscheme(COLOR_WHITE, COLOR_BLACK);
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
@@ -114,7 +114,7 @@ void run() {
     wattroff(main_wnd, A_BOLD);
 
     // draw dividing line between game and stats
-    wmove(main_wnd, game_area.bot() + 4, 1);
+    wmove(main_wnd, game_area.bot() + 3, 1);
     whline(main_wnd, '-', screen_area.width() - 2);
 
     // initial draw
@@ -160,6 +160,11 @@ void run() {
             mvwhline(main_wnd, 20, 1, ' ', screen_area.width() - 2);
         }
 
+        else if(in_char == 'q') {
+            exit_requested = true;
+            break;
+        }
+
         if(story_part >= story_text.size()) break;
         
         wrefresh(game_wnd);
@@ -199,7 +204,7 @@ void run() {
             case KEY_DOWN:
             case 's':
             case 'k':
-                if(player.pos.y < game_area.bot() + 2)
+                if(player.pos.y < game_area.bot() + 1)
                     player.pos.y += 1;
                 break;
             case KEY_LEFT: 
@@ -360,7 +365,6 @@ void winResize(int &orig_width, int &orig_height){
 
 
 void enemyAI(){
-
     for(size_t i = 0; i < enemies.size(); i++){ // move each enemy down
         if(enemies.at(i).pos.y > game_area.bot()){ // delete from vector when enemy reaches bottom
         //    mvwaddch(game_wnd, n.at(i).pos.y , n.at(i).pos.x, ' ');
