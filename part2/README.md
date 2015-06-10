@@ -95,6 +95,27 @@ In your game.cpp:
 This option enables ncurses to interpret action keys, rather than print out escape sequences.
 ([man page](http://linux.die.net/man/3/keypad))
 
+```c++
+    nodelay(wnd, true);
+```
+
+This disables blocking when using ```wgetchar()```.
+It's important if we want to animate something while still listening for input.
+([man page](http://linux.die.net/man/3/nodelay))
+
+
+Next, we will set up color manipulation.
+
+```c++
+    if(!has_colors()) {
+        endwin();
+        printf("ERROR: Terminal does not support color.\n");
+        exit(1);
+    }
+```
+
+The function [```has_colors()```](http://linux.die.net/man/3/has_colors) helps us test whether or not the terminal supports color manipulation.
+
 Now, we need to prototype some more.  
 
 In your game.h:
@@ -114,8 +135,8 @@ typedef struct {
 Here we declare a ```vec2ui``` datatype.
 2D vectors will be the foundation of our game, and we won't be using floats.
 
-The type ```uint_fast8_t``` is a C++11 feature -
-basically, it asks the compiler to implement that value using the *fastest* available int size of at *least* 8 bits.
+The type ```uint_fast8_t``` is a c++11 feature -
+basically, it asks the compiler to implement that value using the *fastest* available ```int``` size of at *least* 8 bits.
 For more information, see [here](http://stackoverflow.com/questions/8500677/what-is-uint-fast32-t-and-why-should-it-be-used-instead-of-the-regular-int-and-u).
 
 ```vec2i``` is simply a signed version.
