@@ -14,8 +14,14 @@ void skipMenu(bool);
 void setDifficulty(int);
 void setTime(int);
 ```
-along with standard compilation checks.  (Add these on your own.)
-The purposes of the latter three functions is as "setters" - they will set game options before it even starts.
+Along with standard compilation checks.  (Add these on your own.)
+The latter three functions are "setters".  
+They modify game variables, so that a caller does not need to have the variables themselves.
+This is important for encapsulation in object-oriented programming, but it serves another purpose for us.
+Using getter and setter functions in the source header allows us to modify globals that are only defined within the source file itself!
+Although globals are discouraged, they are simple enough in this case that we will take advantage of them.
+This will prevent a **lot** of headaches later on.
+
 
 Now, we will put things in their proper place - in a new file called game.cpp:
 ```c++
