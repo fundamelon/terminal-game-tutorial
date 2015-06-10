@@ -15,11 +15,9 @@ void setDifficulty(int);
 void setTime(int);
 ```
 along with standard compilation checks.  (Add these on your own.)
+The purposes of the latter three functions is as "setters" - they will set game options before it even starts.
 
-The purposes of the latter three functions will be explained later - for now think of them as simple "setters".
-
-Now we will put things in their proper place.  
-In a file called game.cpp, 
+Now, we will put things in their proper place - in a new file called game.cpp:
 ```c++
 #include <string>
 #include <ncurses.h>
