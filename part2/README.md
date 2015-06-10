@@ -20,7 +20,7 @@ They modify game variables, so that a caller does not need to have the variables
 This is important for encapsulation in object-oriented programming, but it serves another purpose for us.
 
 Using getter and setter functions in the source header allows us to modify globals that are only defined within the source file itself!
-Although globals are discouraged, they are simple enough in this case that we will take advantage of them.
+Although globals are usually avoided, they are convenient enough in this case to be worth taking advantage of.
 This will prevent a **lot** of headaches later on.
 
 
@@ -85,10 +85,19 @@ There are several things to note:
 
 ### 2.2: Getting started for real
 
-Now, we need to prototype some more.  
-Let's start with datatypes.
+Let's finish up our initialization procedure.
 
-In your quiz.h:
+In your game.cpp:
+```c++
+    keypad(wnd, true);
+```
+
+This option enables ncurses to interpret action keys, rather than print out escape sequences.
+([man page](http://linux.die.net/man/3/keypad))
+
+Now, we need to prototype some more.  
+
+In your game.h:
 ```c++
 typedef struct {
     uint_fast8_t x;
@@ -102,7 +111,7 @@ typedef struct {
 
 /** init, run, etc **/
 ```
-Here we declare a ```vec2ui``` type.
+Here we declare a ```vec2ui``` datatype.
 2D vectors will be the foundation of our game, and we won't be using floats.
 
 The type ```uint_fast8_t``` is a C++11 feature -
