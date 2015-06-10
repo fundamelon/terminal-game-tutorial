@@ -5,7 +5,7 @@ Click [here](../part1) in case you missed part 1.
 ### 2.1: Moving things around a little
 To prepare for the rest of the project, we will now prototype some function headers for our game source. 
 
-In a file called src/game.h, we added:
+In a new file called ```src/game.h```, we add:
 ```c++
 int init();
 void run();
@@ -24,7 +24,7 @@ Although globals are usually avoided, they are convenient enough in this case to
 This will prevent a **lot** of headaches later on.
 
 
-Now, we will put things in their proper place - in a new file called game.cpp:
+Now, we will put things in their proper place - in a new file called ```src/game.cpp```:
 ```c++
 #include <string>
 #include <ncurses.h>
@@ -87,7 +87,7 @@ There are several things to note:
 
 Let's finish up our initialization procedure.
 
-Add the following snippets to init(), in game.cpp:
+Add the following snippets to ```init()```, in ```game.cpp```:
 ```c++
     /** clear(), refresh() **/
 
@@ -116,18 +116,19 @@ Next, we will set up color manipulation.
     }
 ```
 
-The function [```has_colors()```](http://linux.die.net/man/3/has_colors) helps us test whether or not the terminal supports color manipulation.
+The function ```has_colors()``` helps us test whether or not the terminal supports color manipulation.
+([man page](http://linux.die.net/man/3/has_colors))
 
 And finally,
 ```c++
     start_color();
 ```
 
-Enables routines that let you redefine colors within a terminal.  
+Enables routines that let you redefine colors within a terminal.
 ([man page](http://linux.die.net/man/3/start_color))
 
 
-We'll come back to this later.  
+We'll come back to this later.
 For now, let's return to the header prototype some more.
 
 At the top of your game.h:
@@ -147,11 +148,45 @@ typedef struct {
 Here we declare a ```vec2ui``` datatype.
 2D vectors will be the foundation of our game, and we won't be using floats.
 
-The type ```uint_fast8_t``` is a c++11 feature -
+The type ```uint_fast8_t``` is a c++11 feature* -
 basically, it asks the compiler to implement that value using the *fastest* available ```int``` size of at *least* 8 bits.
-For more information, see [here](http://stackoverflow.com/questions/8500677/what-is-uint-fast32-t-and-why-should-it-be-used-instead-of-the-regular-int-and-u).
+For a better explanation, see [here](http://stackoverflow.com/questions/8500677/what-is-uint-fast32-t-and-why-should-it-be-used-instead-of-the-regular-int-and-u).
+<sup>requires ```<cstdint>```</sup>
+
 
 ```vec2i``` is simply a signed version.
 This means that the maximum range will be at least -127/128.  
 This is OK, since our screen will be limited to 80x24.  (More on that in a bit!)
 
+Now, we have everything we need to create our first character!
+
+### 2.3: Player 1 has entered the game
+
+A game isn't interactive if you can't control something.
+Here, we will introduce our first movable element.
+
+In the globals section of ```game.cpp```:
+```c++
+/** WINDOW wnd; **/
+
+struct {
+    vec2i pos;
+    char disp_char;
+} player;
+
+/** int init() { **/
+```
+
+Here is our simple player.
+All it owns is a position and a char to represent itself.
+
+We'll go ahead and set those right now:
+```c++
+/** void run() { **/
+
+    player.disp_char = '0';
+    player.pos = {5, 10};
+
+/** return 0; **/
+```
+You should also delete all the Hello World code in ```run()```, we won't need it anymore.
