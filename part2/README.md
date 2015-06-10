@@ -108,8 +108,7 @@ It's important if we want to animate something while still listening for input.
 ```c++
     curs_set(0);
 ```
-
-Simply tells ncurses to hide the blinking cursor.
+Tells ncurses to hide the blinking cursor.
 
 
 Next, we will set up color manipulation.
@@ -122,10 +121,10 @@ Next, we will set up color manipulation.
     }
 ```
 
-The function ```has_colors()``` helps us test whether or not the terminal supports color manipulation.
+The function ```has_colors()``` lets us know whether or not the terminal supports color manipulation.
 ([man page](http://linux.die.net/man/3/has_colors))
 
-And finally,
+And last, but not least:
 ```c++
     start_color();
 ```
@@ -134,8 +133,8 @@ Enables routines that let you redefine colors within a terminal.
 ([man page](http://linux.die.net/man/3/start_color))
 
 
-Finally, we add one last step to verify our drawing is working.
-In ``init()```:
+Finally, let's get something on the screen.
+In ```init()```:
 ```c++
 /** refresh(); **/
 
@@ -147,14 +146,39 @@ In ``init()```:
 ```
 
 ```attron()``` and ```atroff()``` are used to activate an attribute for drawing - in this case, to use bold type.
-([more info](pag://www.mkssoftware.com/docs/man3/curs_attr.3.asp))
+([more info](https://www.mkssoftware.com/docs/man3/curs_attr.3.asp))
 
+The function ```box()``` and its [many variants](https://www.mkssoftware.com/docs/man3/curs_border.3.asp) are very convenient - used here to draw a frame around the window.
 
+Go ahead and run your project now!
+You should see something like this...
+
+![waiting_for_art.gif]()
+
+Let's use the ```attr``` functions to set the colors.
+Add this block of code at the end of your initialization:
+```c++
+/** start_color(); **/
+
+    init_pair(1, COLOR_BLACK, COLOR_CYAN);
+    wbkgd(wnd, COLOR_PAIR(1));
+
+/** return 0; **/
+```
+
+```init_pair()``` simply takes two colors and assigns them to a number.
+This number is passed into the ```COLOR_PAIR``` macro in various functions. 
+Here it's used with [```wbkgd```](https://www.mkssoftware.com/docs/man3/curs_bkgd.3.asp) to set the background.
+
+What you should now get is this:
+![waiting_for_art2.gif]()
+
+Neat! Go ahead and change the colors back to ```COLOR_WHITE``` and ```COLOR_BLACK``` respectively.
 
 We'll come back to this later.
-For now, let's return to the header prototype some more.
+For now, let's return to the header and prototype some more.
 
-### 2.4: 2D vectors
+### 2.3: 2D vectors
 
 At the top of your game.h:
 ```c++
@@ -185,7 +209,7 @@ This is OK, since our screen will be limited to 80x24.  (More on that in a bit!)
 
 Now, we have everything we need to create our first character!
 
-### 2.5: Player 1 has entered the game
+### 2.4: Player 1 has entered the game
 
 A game isn't interactive if you can't control something.
 Here, we will introduce our first movable element.
@@ -227,3 +251,8 @@ Now we draw our player:
 
 /** } **/
 ```
+
+Running the project, what we get is:
+![waiting_for_art3.gif]()
+
+### 2.5: Capture some keystrokes
