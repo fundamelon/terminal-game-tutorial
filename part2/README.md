@@ -70,16 +70,13 @@ Finally, add a makefile target for game.cpp.
 The project should now behave the same as our Hello World program from last section.
 There are several things to note:
 
-- First off, we are structuring the main and quiz code in a way that makes sense to either object-oriented or functional approaches.  
-If you wish, you can make game.h a class template, and convert everything to object-oriented format.
-The function ```init()``` can therefore be easily rewritten as a constructor, and vice versa.
+# (NOTE: sentences need to be on one line in a bullet list)
 
-- It is important to note the role of main.cpp.  
-Its purpose will be to parse command line input and pass the data along to the game, which will adjust accordingly.
-This compartmentalizes code that would be very cluttered otherwise.  However, you are still welcome to use any approach you are comfortable with.
+- First off, we are structuring the main and quiz code in a way that makes sense to both object-oriented or functional approaches.  If you wish, you can make game.h a class template, and convert everything to object-oriented format. The function ```init()``` can therefore be easily rewritten as a constructor, and vice versa.
 
-- Note also that we avoid using any special types in game.h, to avoid having redundant includes in .cpp files that don't need them.  
-The same goes for variables and structs - never declare them in your header!
+- It is important to note the role of main.cpp.  Its purpose will be to parse command line input and pass the data along to the game, which will adjust accordingly.  This compartmentalizes code that would be very cluttered otherwise.  However, you are still welcome to use any approach you are comfortable with.
+
+- Note also that we avoid using any special types in game.h, to avoid having redundant includes in .cpp files that don't need them.  The same goes for variables and structs - never declare them in your header!
 
 ### 2.2: Shooting for a working program
 
