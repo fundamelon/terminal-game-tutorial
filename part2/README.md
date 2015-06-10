@@ -153,7 +153,7 @@ The function ```box()``` and its [many variants](https://www.mkssoftware.com/doc
 Go ahead and run your project now!
 You should see something like this...
 
-![waiting_for_art.gif]()
+![waiting_for_art.gif](.img/)
 
 Let's use the ```attr``` functions to set the colors.
 Add this block of code at the end of your initialization:
@@ -171,7 +171,8 @@ This number is passed into the ```COLOR_PAIR``` macro in various functions.
 Here it's used with [```wbkgd```](https://www.mkssoftware.com/docs/man3/curs_bkgd.3.asp) to set the background.
 
 What you should now get is this:
-![waiting_for_art2.gif]()
+
+![waiting_for_art2.gif](.img/)
 
 Neat! Go ahead and change the colors back to ```COLOR_WHITE``` and ```COLOR_BLACK``` respectively.
 
@@ -253,6 +254,6 @@ Now we draw our player:
 ```
 
 Running the project, what we get is:
-![waiting_for_art3.gif]()
+![waiting_for_art3.gif](.img/)
 
 ### 2.5: Capture some keystrokes
