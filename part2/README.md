@@ -3,7 +3,7 @@
 Click [here](../part1) in case you missed part 1.
 
 ### 2.1: Moving things around a little
-To prepare for the rest of the project, we will now prototype some function headers for our quiz source. 
+To prepare for the rest of the project, we will now prototype some function headers for our game source. 
 
 In a file called src/game.h, we added:
 ```c++
@@ -14,8 +14,9 @@ void skipMenu(bool);
 void setDifficulty(int);
 void setTime(int);
 ```
-along with standard compilation checks.  
-The purposes of the latter four functions will be explained later - for now think of them as simple "setters".
+along with standard compilation checks.  (Add these on your own.)
+
+The purposes of the latter three functions will be explained later - for now think of them as simple "setters".
 
 Now we will put things in their proper place.  
 In a file called game.cpp, 
@@ -54,7 +55,7 @@ void run() {
 }
 ```
 Note that this is just code copy-pasted from our original main function.  
-Speaking of which, we go back to there now and replace all of it with:
+We go back there and replace it with:
 ```c++
     int init_status = init();
 
@@ -71,13 +72,14 @@ There are several things to note:
 
 - First off, we are structuring the main and quiz code in a way that makes sense to either object-oriented or functional approaches.  
 If you wish, you can make game.h a class template, and convert everything to object-oriented format.
-The function ```init()``` can therefore be easily made a constructor, and vice versa.
+The function ```init()``` can therefore be easily rewritten as a constructor, and vice versa.
 
 - It is important to note the role of main.cpp.  
 Its purpose will be to parse command line input and pass the data along to the game, which will adjust accordingly.
 This compartmentalizes code that would be very cluttered otherwise.  However, you are still welcome to use any approach you are comfortable with.
 
-- Note also that we avoid using any special types in game.h, to avoid having to add includes into the header itself.
+- Note also that we avoid using any special types in game.h, to avoid having redundant includes in .cpp files that don't need them.  
+The same goes for variables and structs - never declare them in your header!
 
 ### 2.2: Shooting for a working program
 
