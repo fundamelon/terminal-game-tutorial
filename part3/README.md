@@ -8,7 +8,7 @@ The next step in our game will be to create an object that will be used as an en
 First, we will create a struct for our enemy. This struct will contain the x and y 
 position of our enemy. We also want to create multiple enemies so we will make a vector
 of enemy.
-```
+```c++
 struct enemy{
     int x; // stores x position
     int y; // stores y position
@@ -19,7 +19,7 @@ vector<enemy> enemies;
 We want to set the x position of our enemy randomly and our y position right below our window
 frame. To make our x position random we will be using the `srand` `rand` and `time` 
 These will require the `cstdlib.h` and `time.h` libraries.
-```
+```c++
 #include "cstdlib.h"
 #include "time.h"
 // only libraries specific to this functionality are included 
