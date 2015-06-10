@@ -94,7 +94,7 @@ int init() {
 
 
 void run() {
-
+    
     int tick = 0;
    
     // initialize player
@@ -130,12 +130,14 @@ void run() {
         "Get back to the house before your planet explodes!"
     };
 
+
     mvwprintw(main_wnd, 22, 57, "press SPACE to skip..."); 
 
     // story mode demo
     tick = 0;
     size_t story_part = 0;
     size_t story_position = 0;
+
     while(1) {
         werase(game_wnd);
         in_char = wgetch(main_wnd);
@@ -304,7 +306,60 @@ void run() {
         wrefresh(main_wnd);
         wrefresh(game_wnd);
 
-        if(exit_requested || game_over) break;
+
+        if(game_over) {
+
+            // store an approx location where text will be centered
+            const int xpos = game_area.width() / 2 - 6; 
+            const int ypos = game_area.height() / 2 - 2;
+
+            // erase current game content on window and redraw a clean window
+            werase(main_wnd);
+            wattron(main_wnd, A_BOLD);
+            box(main_wnd, 0, 0);
+            wattroff(main_wnd, A_BOLD);
+
+            wmove(main_wnd, game_area.bot() + 3, 1);
+            whline(main_wnd, '-', screen_area.width() -2);
+
+            wrefresh(main_wnd);
+            wrefresh(game_wnd);
+
+            // TODO print out score 
+            // print game over prompt 
+            mvwprintw(game_wnd, ypos, xpos , "GAME OVER");
+            mvwprintw(game_wnd, ypos + 2, xpos - 7, "Press SPACE to play again");
+            mvwprintw(game_wnd, ypos + 4, xpos - 7, "Press 'q' to quit the game");
+
+            // loop until player either quits or restarts game
+            while(1) {
+                in_char = wgetch(main_wnd);
+
+                if(in_char == ' ') { // reset all variables and restart game
+                    tick = 0;
+                    player.pos = {10, 10};  
+                    player.energy = 100;
+                    stars.clear();
+                    enemies.clear();
+                    in_char = 0;
+                    game_over = false;
+                    exit_requested = false;
+                    break;
+                }
+
+                else if(in_char == 'q') {
+                    exit_requested = true;
+                    break;
+                }
+
+                wrefresh(game_wnd);
+
+                tick++;
+                usleep(10000); // 1 ms
+            }
+        }
+
+        if(exit_requested) break;
 
         tick++;
 
@@ -313,11 +368,10 @@ void run() {
     };
 
     delwin(main_wnd);
-    delwin(game_wnd);
 
     endwin();
 
-    if(game_over) printf("Game over!\n");
+    // if(game_over) printf("Game over!\n");
 }
 
 
