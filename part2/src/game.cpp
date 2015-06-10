@@ -11,6 +11,13 @@
 WINDOW* wnd;
 
 
+struct {
+    vec2i pos;
+    vec2i dir;
+    char disp_char;
+} player;
+
+
 
 int init() {
 

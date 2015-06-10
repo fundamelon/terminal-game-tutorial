@@ -78,5 +78,22 @@ There are several things to note:
 
 - Note also that we avoid using any special types in game.h, to avoid having redundant includes in .cpp files that don't need them.  The same goes for variables and structs - never declare them in your header!
 
-### 2.2: Shooting for a working program
+### 2.2: Getting started for real
 
+Now, we need to prototype some more.  
+Let's start with datatypes.
+
+In your quiz.h:
+```c++
+typedef struct {
+    uint_fast8_t x;
+    uint_fast8_t y;
+} vec2ui;
+
+typedef struct {
+    int_fast8_t x;
+    int_fast8_t y;
+} vec2i;
+
+/** init, run, etc **/
+```
