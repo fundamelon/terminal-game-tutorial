@@ -70,7 +70,7 @@ Finally, add a makefile target for game.cpp.
 The project should now behave the same as our Hello World program from last section.
 There are several things to note:
 
-# (NOTE: sentences need to be on one line in a bullet list)
+<!-- NOTE: sentences need to be on one line in a bullet list -->
 
 - First off, we are structuring the main and quiz code in a way that makes sense to both object-oriented or functional approaches.  If you wish, you can make game.h a class template, and convert everything to object-oriented format. The function ```init()``` can therefore be easily rewritten as a constructor, and vice versa.
 
