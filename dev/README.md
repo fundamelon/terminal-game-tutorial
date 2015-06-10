@@ -1,7 +1,6 @@
-# PART 3
+# DEVELOPMENT
 
-In case you missed it, the previous tutorial can be found [here](../part2).
+This folder contains the most up-to-date verion of the game.
+All tutorials will be developed using previous versions of this, leading up to the final project.
 
-### 3.1: Gathering ideas
-(TODO) Two example question sets are available in the questions folder
-
+Any work adding features or fixing bugs should be done here, not in the tutorial code.

@@ -2,9 +2,6 @@
 This is a tutorial on how to create a simple terminal game while learning c++ and ncurses.
 It will guide you through the basics of game programming through several distinct parts, each incrementally adding features.
 
-
-By the time  you're done, you'll have created this awesome space game!
-
 ![final product](.img/spacegame1.gif)
 
 Project goals:
@@ -13,6 +10,7 @@ Project goals:
 - to inspire and create a launch platform for future projects
 - to create an entertaining and educational final product for others to use and enjoy
 
+By the time  you're done, you'll have created this awesome space game!
 
 ## Usage
 This tutorial series is meant to be read in sequence, with the reader programming as we go along.
