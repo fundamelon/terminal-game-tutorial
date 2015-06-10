@@ -87,8 +87,10 @@ There are several things to note:
 
 Let's finish up our initialization procedure.
 
-In your game.cpp:
+Add the following snippets to init(), in game.cpp:
 ```c++
+    /** clear(), refresh() **/
+
     keypad(wnd, true);
 ```
 
@@ -99,7 +101,7 @@ This option enables ncurses to interpret action keys, rather than print out esca
     nodelay(wnd, true);
 ```
 
-This disables blocking when using ```wgetchar()```.
+This disables blocking when using [```wgetch()```](http://linux.die.net/man/3/wgetch).
 It's important if we want to animate something while still listening for input.
 ([man page](http://linux.die.net/man/3/nodelay))
 
@@ -116,9 +118,19 @@ Next, we will set up color manipulation.
 
 The function [```has_colors()```](http://linux.die.net/man/3/has_colors) helps us test whether or not the terminal supports color manipulation.
 
-Now, we need to prototype some more.  
+And finally,
+```c++
+    start_color();
+```
 
-In your game.h:
+Enables routines that let you redefine colors within a terminal.  
+([man page](http://linux.die.net/man/3/start_color))
+
+
+We'll come back to this later.  
+For now, let's return to the header prototype some more.
+
+At the top of your game.h:
 ```c++
 typedef struct {
     uint_fast8_t x;
