@@ -18,8 +18,9 @@ Along with standard compilation checks.  (Add these on your own.)
 The latter three functions are "setters".  
 They modify game variables, so that a caller does not need to have the variables themselves.
 This is important for encapsulation in object-oriented programming, but it serves another purpose for us.
+
 Using getter and setter functions in the source header allows us to modify globals that are only defined within the source file itself!
-Although globals are discouraged, they are simple enough in this case that we will take advantage of them.
+Although globals are usually avoided, they are convenient enough in this case to be worth taking advantage of.
 This will prevent a **lot** of headaches later on.
 
 
@@ -84,10 +85,52 @@ There are several things to note:
 
 ### 2.2: Getting started for real
 
-Now, we need to prototype some more.  
-Let's start with datatypes.
+Let's finish up our initialization procedure.
 
-In your quiz.h:
+Add the following snippets to init(), in game.cpp:
+```c++
+    /** clear(), refresh() **/
+
+    keypad(wnd, true);
+```
+
+This option enables ncurses to interpret action keys, rather than print out escape sequences.
+([man page](http://linux.die.net/man/3/keypad))
+
+```c++
+    nodelay(wnd, true);
+```
+
+This disables blocking when using [```wgetch()```](http://linux.die.net/man/3/wgetch).
+It's important if we want to animate something while still listening for input.
+([man page](http://linux.die.net/man/3/nodelay))
+
+
+Next, we will set up color manipulation.
+
+```c++
+    if(!has_colors()) {
+        endwin();
+        printf("ERROR: Terminal does not support color.\n");
+        exit(1);
+    }
+```
+
+The function [```has_colors()```](http://linux.die.net/man/3/has_colors) helps us test whether or not the terminal supports color manipulation.
+
+And finally,
+```c++
+    start_color();
+```
+
+Enables routines that let you redefine colors within a terminal.  
+([man page](http://linux.die.net/man/3/start_color))
+
+
+We'll come back to this later.  
+For now, let's return to the header prototype some more.
+
+At the top of your game.h:
 ```c++
 typedef struct {
     uint_fast8_t x;
@@ -101,3 +144,14 @@ typedef struct {
 
 /** init, run, etc **/
 ```
+Here we declare a ```vec2ui``` datatype.
+2D vectors will be the foundation of our game, and we won't be using floats.
+
+The type ```uint_fast8_t``` is a c++11 feature -
+basically, it asks the compiler to implement that value using the *fastest* available ```int``` size of at *least* 8 bits.
+For more information, see [here](http://stackoverflow.com/questions/8500677/what-is-uint-fast32-t-and-why-should-it-be-used-instead-of-the-regular-int-and-u).
+
+```vec2i``` is simply a signed version.
+This means that the maximum range will be at least -127/128.  
+This is OK, since our screen will be limited to 80x24.  (More on that in a bit!)
+
