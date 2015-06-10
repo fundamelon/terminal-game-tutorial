@@ -105,6 +105,12 @@ This disables blocking when using [```wgetch()```](http://linux.die.net/man/3/wg
 It's important if we want to animate something while still listening for input.
 ([man page](http://linux.die.net/man/3/nodelay))
 
+```c++
+    curs_set(0);
+```
+
+Simply tells ncurses to hide the blinking cursor.
+
 
 Next, we will set up color manipulation.
 
@@ -128,8 +134,27 @@ Enables routines that let you redefine colors within a terminal.
 ([man page](http://linux.die.net/man/3/start_color))
 
 
+Finally, we add one last step to verify our drawing is working.
+In ``init()```:
+```c++
+/** refresh(); **/
+
+    attron(A_BOLD);
+    box(wnd, 0, 0);
+    attroff(A_BOLD);
+
+/** keypad(wnd, true); **/
+```
+
+```attron()``` and ```atroff()``` are used to activate an attribute for drawing - in this case, to use bold type.
+([more info](pag://www.mkssoftware.com/docs/man3/curs_attr.3.asp))
+
+
+
 We'll come back to this later.
 For now, let's return to the header prototype some more.
+
+### 2.4: 2D vectors
 
 At the top of your game.h:
 ```c++
@@ -151,7 +176,7 @@ Here we declare a ```vec2ui``` datatype.
 The type ```uint_fast8_t``` is a c++11 feature* -
 basically, it asks the compiler to implement that value using the *fastest* available ```int``` size of at *least* 8 bits.
 For a better explanation, see [here](http://stackoverflow.com/questions/8500677/what-is-uint-fast32-t-and-why-should-it-be-used-instead-of-the-regular-int-and-u).  
-<sub>* requires ```<cstdint>```</sub>
+<sup>* requires ```<cstdint>```</sup>
 
 
 ```vec2i``` is simply a signed version.
@@ -160,7 +185,7 @@ This is OK, since our screen will be limited to 80x24.  (More on that in a bit!)
 
 Now, we have everything we need to create our first character!
 
-### 2.3: Player 1 has entered the game
+### 2.5: Player 1 has entered the game
 
 A game isn't interactive if you can't control something.
 Here, we will introduce our first movable element.
@@ -185,8 +210,20 @@ We'll go ahead and set those right now:
 /** void run() { **/
 
     player.disp_char = '0';
-    player.pos = {5, 10};
+    player.pos = {10, 5};
 
-/** return 0; **/
+/** } **/
 ```
-You should also delete all the Hello World code in ```run()```, we won't need it anymore.
+At this point you should also delete the Hello World code in ```run()```.
+
+Now we draw our player:
+```c++
+/** player.pos = {10, 5}; **/
+
+    mvaddch(player.pos.y, player.pos.x, player.disp.char);
+    refresh();
+
+    while(1);
+
+/** } **/
+```
