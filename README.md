@@ -1,13 +1,13 @@
 #terminal-game-tutorial
-This is a tutorial on how to create a simple terminal game while learning c++ and ncurses, as well as various GNU utilities such as getopt.
-It will guide you through several distinct parts, each incrementally adding features.
+This is a tutorial on how to create a simple terminal game while learning c++ and ncurses.
+It will guide you through the basics of game programming through several distinct parts, each incrementally adding features.
+
+![final product](.img/spacegame1.gif)
 
 Project goals:
 - to demonstrate proper software design practices (using the UNIX philosophy)
 - to show and utilize the power of [ncurses](http://www.gnu.org/software/ncurses/)
-- to demonstrate the use of [GNU getopt](http://man7.org/linux/man-pages/man3/getopt.3.html)
-- to learn a bit of history while we're here
-- to inspire and create a launch platform for others' future projects
+- to inspire and create a launch platform for future projects
 - to create an entertaining and educational final product for others to use and enjoy
 
 
@@ -16,14 +16,15 @@ This tutorial series is meant to be read in sequence, with the reader programmin
 Each part of the tutorial series is an individual project - you can ```make``` and run it if you wish.  All source code is provided.
 
 Of course, there are many different ways of solving almost any programming task.  
-Therefore, it is recommended that the reader attempt to first skim through a tutorial, then attempt to implement the content in their own style.  
-The provided source code is by no means "perfect", and is intended as a guide.
+Therefore, it is recommended that the reader first skim through a tutorial, then (and this is important) attempt to implement the content in their own style.  
+
+The provided source code is by no means "perfect", and is intended as a gentle guide.
 
 
 #### [Part 1](part1): Starting out with ncurses
 
 
-#### [Part 2](part2): Project structure and menus
+#### [Part 2](part2): A player on the screen
 
 
 #### [Part 3](part3): Introducing some game elements
