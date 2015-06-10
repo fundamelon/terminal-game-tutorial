@@ -102,7 +102,6 @@ typedef struct {
 
 /** init, run, etc **/
 ```
-And an explanation:
 
 Here we declare a ```vec2ui``` type with fields x, y.
 2D vectors will be the foundation of our game, and we won't be using floats.
