@@ -69,7 +69,7 @@ We go back to main and replace it with:
 ```c++
     int init_status = init();
 
-    if(init_status != 0)
+    if(init_status == 0)
         run();
 
     return 0;
