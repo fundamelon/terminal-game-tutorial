@@ -272,7 +272,7 @@ Now we draw our player:
 ```
 
 Running the project, what we get is:
-![alt tag](https://github.com/fundamelon/terminal-game-tutorial/blob/dev/.img/part2.4.png)
+![No, this isn't a gif](./.img/part2_4.png)
 
 There's our player!
 Let's figure out how to move it around.
@@ -390,7 +390,7 @@ This method is very performance friendly and will be used often in the future.
 
 At last, compiling and running our project gives something like this:
 
-![final product](./.img/part2_5.gif)
+![Weeee!](./.img/part2_5.gif)
 
 Awesome!
 You're ready to move on to the [next section](../part3), where we will add falling objects to dodge!
