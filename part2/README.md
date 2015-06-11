@@ -166,7 +166,7 @@ The function ```box()``` and its [many variants](https://www.mkssoftware.com/doc
 
 Go ahead and run your project now!
 You should see something like this...
-
+![alt tag](https://github.com/fundamelon/terminal-game-tutorial/blob/dev/.img/part2.2.png)
 ![waiting_for_art.gif](.img/)
 
 Let's use the ```attr``` functions to set the colors.
