@@ -70,8 +70,9 @@ We go back there and replace it with:
     return 0;
 ```
 We can also remove all includes, and add ```#include "game.h"```.  
+You should now a makefile target for game.cpp. 
+You can borrow [our example makefile](./makefile) for this.
 
-Finally, add a makefile target for game.cpp. 
 The project should now behave the same as our Hello World program from last section.
 There are several things to note:
 
