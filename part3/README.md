@@ -115,7 +115,7 @@ First, let's initialize our stars. We must first declare our objectand then set 
 For now we will set its bounds by getting the max size of the window with `getmaxyx` and using 
 the x and y values for our `rect` value. Later we will learn how to properly set these
 boundaries. For now we must deal with the bugs created by not having proper boundaries such as 
-window frame disappearing. Finally, we call the update member of our object to spawn them.
+our window frame disappearing. Finally, we call the update member of our object to spawn them.
 ```c++
 ObjectField stars;
 
@@ -150,8 +150,8 @@ at a very fast rate. To fix this, we take advantage of the function `usleep`. Ou
 usleep waiting 1 ms every time we go through our loop. We can make use of this by creating an
 `int` variable `tick`. We will increment tick every 1 ms. Then we will have our function call
 every so many ticks depending on the speed we want it to scroll down. Now we have a method
-for calling our objects `update` member at an interval that is more convenient to us. For our
-game we will call `update` on stars every 50 ms. Let's try it now.
+for calling our objects member function `update` at an interval that is more convenient to us.
+For our game we will call `update` on stars every 50 ms. Let's try it now.
 ```c++
 ObjectField stars;
 
