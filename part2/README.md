@@ -166,8 +166,8 @@ The function ```box()``` and its [many variants](https://www.mkssoftware.com/doc
 
 Go ahead and run your project now!
 You should see something like this...
-![Hello world!](./.img/part2_2a.png)
 
+![Hello world!](./.img/part2_2a.png)
 
 Let's use the ```attr``` functions to set the colors.
 Add this block of code at the end of your initialization:
@@ -272,6 +272,7 @@ Now we draw our player:
 ```
 
 Running the project, what we get is:
+
 ![No, this isn't a gif](./.img/part2_4.png)
 
 There's our player!
@@ -388,7 +389,7 @@ Therefore, we add this line to ```run()```:
 Here we basically "white-out" the last position of the player.
 This method is very performance friendly and will be used often in the future.
 
-At last, compiling and running our project gives something like this:
+At last, compiling and running our project gives a result:
 
 ![Weeee!](./.img/part2_5.gif)
 
