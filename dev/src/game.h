@@ -35,14 +35,6 @@ typedef struct {
 } rect;
 
 
-struct enemy{
-    vec2i pos;
-};
-
-struct star {
-    vec2i pos;
-};
-
 
 int init();
 void run();
@@ -54,8 +46,6 @@ void setTime(int);
 void applyColorscheme(short fg, short bg);
 void winResize(int &orig_x, int &orig_y);
 void setFrame();
-void enemyAI();
-void moveStars();
 
 void drawEnergyBar(int);
 

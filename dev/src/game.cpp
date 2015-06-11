@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "game.h"
+#include "ObjectField.h"
 
 
 
@@ -19,8 +20,8 @@ rect screen_area;
 
 vec2ui cur_size;
 
-std::vector<enemy> enemies;
-std::vector<star> stars;
+ObjectField asteroids;
+ObjectField stars;
 
 struct {
     vec2i pos;
@@ -104,6 +105,9 @@ void run() {
     player.moving = false;
     player.energy = 100;
 
+    asteroids.setBounds(game_area);
+    stars.setBounds(game_area);
+
     int in_char = 0;
     bool exit_requested = false;
     bool game_over = false;
@@ -143,11 +147,11 @@ void run() {
         in_char = wgetch(main_wnd);
 
         if(tick % 50 == 0)
-            moveStars();
+            stars.update();
 
         // draw starry background
-        for(auto s : stars)
-            mvwaddch(game_wnd, s.pos.y, s.pos.x, '.');  
+        for(auto s : stars.getData())
+            mvwaddch(game_wnd, s.getPos().y, s.getPos().x, '.');  
 
         if(story_position < story_text[story_part].length()) {
             wattron(main_wnd, A_BOLD);
@@ -227,17 +231,17 @@ void run() {
 
 
         if(tick % 7 == 0)
-            moveStars();
+            stars.update();
 
         if(tick > 100 && tick % 20 == 0)
-            enemyAI();
+            asteroids.update();
     
         player.bounds = { { player.pos.x - 1, player.pos.y }, { 3, 2 } }; 
 
         // collision detection
-        for(size_t i = 0; i < enemies.size(); i++) {
-            if(player.bounds.contains(enemies.at(i).pos)) {
-                enemies.erase(enemies.begin() + i);
+        for(size_t i = 0; i < asteroids.getData().size(); i++) {
+            if(player.bounds.contains(asteroids.getData().at(i).getPos())) {
+                asteroids.erase(i); 
                 player.energy -= 10;
             }
         }
@@ -247,8 +251,8 @@ void run() {
 
 
         // draw starry background
-        for(auto s : stars)
-            mvwaddch(game_wnd, s.pos.y, s.pos.x, '.');  
+        for(auto s : stars.getData())
+            mvwaddch(game_wnd, s.getPos().y, s.getPos().x, '.');  
 
         // player ship main body
         wattron(game_wnd, A_BOLD);
@@ -271,10 +275,10 @@ void run() {
         wattroff(game_wnd, A_ALTCHARSET);
 
        
-        // draw enemies
-        for(auto n : enemies) {
+        // draw asteroids
+        for(auto o : asteroids.getData()) {
             wattron(game_wnd, A_BOLD);
-            mvwaddch(game_wnd, n.pos.y, n.pos.x, '*');
+            mvwaddch(game_wnd, o.getPos().y, o.getPos().x, '*');
             wattroff(game_wnd, A_BOLD);
         }
 
@@ -339,8 +343,8 @@ void run() {
                     tick = 0;
                     player.pos = {10, 10};  
                     player.energy = 100;
-                    stars.clear();
-                    enemies.clear();
+                    stars.getData().clear();
+                    asteroids.getData().clear();
                     in_char = 0;
                     game_over = false;
                     exit_requested = false;
@@ -414,46 +418,6 @@ void winResize(int &orig_width, int &orig_height){
         setFrame();
     }
 
-}
-
-
-
-void enemyAI(){
-    for(size_t i = 0; i < enemies.size(); i++){ // move each enemy down
-        if(enemies.at(i).pos.y > game_area.bot()){ // delete from vector when enemy reaches bottom
-        //    mvwaddch(game_wnd, n.at(i).pos.y , n.at(i).pos.x, ' ');
-            enemies.erase(enemies.begin() + i);
-        }
-        //mvwaddch(game_wnd, n.at(i).pos.y, n.at(i).pos.x, ' '); // remove enemy from prev pos
-        enemies.at(i).pos.y += 1; // move enemy down 
-        //mvwaddch(game_wnd, n.at(i).pos.y, n.at(i).pos.x, '*');
-    }
-
-    int pos = rand() % game_area.width(); // randomize enemy x position spawn 
-
-    enemy e;
-    e.pos.x = pos;
-    e.pos.y = 0;
-    enemies.push_back(e);
-}
-
-
-
-void moveStars() {
-
-    for(size_t i = 0; i < stars.size(); i++) {
-        if(stars.at(i).pos.y > game_area.bot())
-            stars.erase(stars.begin() + i);
-
-        stars.at(i).pos.y += 1;
-    }
-
-    int pos = rand() % game_area.width();
-
-    star s;
-    s.pos.x = pos;
-    s.pos.y = 0;
-    stars.push_back(s);  
 }
 
 
