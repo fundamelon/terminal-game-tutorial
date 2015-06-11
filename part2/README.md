@@ -2,6 +2,7 @@
 
 Click [here](../part1) in case you missed part 1.
 
+---
 ### 2.1: Moving things around a little
 To prepare for the rest of the project, we will now prototype some function headers for our game source. 
 
@@ -88,6 +89,7 @@ There are several things to note:
 
 - Note also that we avoid using any special types in game.h, to avoid having redundant includes in .cpp files that don't need them.  The same goes for variables and structs - never declare them in your header!
 
+---
 ### 2.2: Getting started for real
 
 Let's finish up our initialization procedure.
@@ -186,6 +188,7 @@ Go ahead and change the colors back to ```COLOR_WHITE``` and ```COLOR_BLACK``` r
 We'll come back to this later.  
 For now, let's return to the header and prototype some more.
 
+---
 ### 2.3: 2D vectors
 
 At the top of your game.h:
@@ -218,6 +221,7 @@ This is OK, since our screen will be limited to 80x24.  (More on that in a bit!)
 
 Now, we have everything we need to create our first character!
 
+---
 ### 2.4: Player 1 has entered the game
 
 A game isn't interactive if you can't control something.
@@ -269,11 +273,14 @@ Running the project, what we get is:
 There's our player!
 Let's figure out how to move it around.
 
+---
 ### 2.5: Capture some keystrokes
 
 ncurses provides a simple function, ```getch```, to take one character of input at a time.
 It functions almost exactly like ```cin``` - blocking the program until input is recieved.
 However, remember that we disabled blocking using the ```nodelay``` function.
+
+To demonstrate this, go back to ```init()``` and comment out the line with ```nodelay```.
 
 We will use a variant, ```wgetch``` (more on ncurses function variants later), as such:
 ```c++
@@ -294,3 +301,88 @@ As you can probably figure out, this code will draw the last character you typed
 Neat!
 Try this out with some different keys, especially special ones like ALT and ESC.
 
+Go ahead and remove the comment on ```nodelay``` now.
+Instead, we will use a timing method to limit our infinite loop.
+```c++
+/**     mvaddch() **/ 
+
+        usleep(10000); // 10 ms
+
+/**     refresh() **/
+```
+Don't forget to ```#include <unistd.h>``` for the ```usleep``` function.
+The value passed in is the number of microseconds to sleep for, so here we get a 10ms delay.
+This value is a compromise between good response time and performance.
+
+Now let's detect some key presses.  Modify your code to look like this:
+```c++ 
+/** int in_char; ** /
+
+    bool exit_requested = false;
+
+    while(1) {
+        in_char = wgetch(wnd);
+        
+        switch(in_char) {
+            case 'q':
+                exit_requested = true;
+                break;
+            case KEY_UP:
+            case 'w':
+                player.pos.x -= 1;
+                break;
+            case KEY_DOWN:
+            case 's':
+                player.pos.x += 1;
+                break;
+            case KEY_LEFT:
+            case 'a':
+                player.pos.y -= 1;
+                break;
+            case KEY_RIGHT:
+            case 'd':
+                player.pos.y += 1;
+                break;
+            default:
+                break;
+        }
+
+        mvaddch(player.pos.x, player.pos.y, player.disp_char);
+        refresh();
+
+        if(exit_requested) break;
+
+/**     usleep **/
+```
+This giant switch-case will change the character's position appropriately for each directional key.
+
+The ```KEY_UP```, ```KEY_DOWN```, etc. macros are action keys defined by ncurses.
+In fact, if ```in_char``` was just a type ```char```, these would not work, since they rely on additional bits.
+We also define key `q` to allow us to quit.
+
+Try running the project now.
+Does it behave as you expected?
+
+Probably not, since the player seems to be leaving a trail behind!
+Here is another insight into how ncurses works.
+If a character is drawn to the screen, it will stay there until it is overwritten.
+
+Therefore, we must add this line to ```run()```:
+```c++
+/**     in_char = wgetch(wnd); **/
+
+        mvaddch(player.pos.x, player.pos.y, ' ');
+
+/**     switch statement **/
+```
+Here we basically "white-out" the last position of the player.
+This method is very performance friendly and will be used often in the future.
+
+At last, compiling and running our project gives something like this:
+![waiting_for_art4.gif](.img/)
+Awesome!
+You're ready to move on to the [next section](../part3), where we will add falling objects to dodge!
+
+___
+
+This folder contains all source code for part 2.
