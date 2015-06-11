@@ -186,7 +186,7 @@ Here it's used with [```wbkgd```](https://www.mkssoftware.com/docs/man3/curs_bkg
 
 What you should now get is this:
 
-![alt tag](https://github.com/fundamelon/terminal-game-tutorial/blob/dev/.img/part2.2.2.png)
+![Gross!](./.img/part2_2b.png)
 
 Neat! Notice that the 'Hello world' text is darker than the rest - this is because we disabled the ```A_BOLD``` attribute earlier.
 Go ahead and change the colors back to ```COLOR_WHITE``` and ```COLOR_BLACK``` respectively.
