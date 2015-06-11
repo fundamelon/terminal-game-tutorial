@@ -58,7 +58,7 @@ Adding the following code to our main function:
 ```
 and compiling + running ```bin/main``` results in a blank screen.  Here we see several important effects:
 - keyboard buttons pressed are not output to the screen
-- ending the program returns the terminal to its previous state
+- ending the program with ctrl-c returns the terminal to its previous state
 
 This is important because a simple call such as printf("\033c") or system("clear") would modify the terminal and its history - but here, ncurses takes control and reserves it for us.
 See [here](hughm.cs.ukzn.ac.za/~murrellh/os/notes/ncurses.html#init)
@@ -91,6 +91,11 @@ Don't forget to ```include <string>```!
 
 Finally, it is important to call ```refresh()``` whenever any changes made should show up on the screen.
 Any changes using curses will not show up until you call this function.
+
+note: be sure to include the string library at the top
+```c++
+#include <string>
+```
 
 #### Final product
 
