@@ -33,13 +33,13 @@ The provided source code is by no means "perfect", and is intended as a gentle g
 #### [Part 3](part3): Falling objects
 
 
-#### [Part 4](part4): Multiple windows
+#### [Part 4](part4): Multiple windows (Under construction)
 
 
-#### [Part 5](part5): Text screens and story
+#### [Part 5](part5): Text screens and story (Under construction)
 
 
-#### Part 6: Under construction
+#### Part 6: Extras (and by that we mean guns) (Under construction)
 
 
 ## Installation

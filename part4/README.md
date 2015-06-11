@@ -9,6 +9,8 @@ In case you missed it, the previous tutorial can be found [here](../part3).
 This is where ncurses gets tricky.
 This section will focus largely on refactoring our old code to use the window system.
 
+However, it's not all boring - we will also make the player a ship, add animations, a health bar, and a starry background!
+
 When your game has separate "areas", such as a score display and the main game area, it's a good idea to update and operate on them separately.
 That way, if your move the player, the entire screen won't need updating - just the game area.
 
