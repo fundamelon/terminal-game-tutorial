@@ -1,4 +1,4 @@
-# PART 4
+# PART 4: Multiple windows
 
 In case you missed it, the previous tutorial can be found [here](../part3).
 
