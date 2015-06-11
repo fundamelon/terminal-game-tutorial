@@ -1,5 +1,6 @@
 # Repo-specific files
 */bin/
+test/
 
 # Compiled Object files
 *.slo
