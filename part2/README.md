@@ -10,6 +10,7 @@ In a new file called ```src/game.h```, we add:
 ```c++
 int init();
 void run();
+void close();
 
 void skipMenu(bool);
 void setDifficulty(int);
@@ -58,7 +59,10 @@ void run() {
     refresh();
 
     while(1);
+}
 
+
+void close() {
     endwin();
 }
 ```
@@ -69,8 +73,10 @@ We go back to main and replace it with:
 ```c++
     int init_status = init();
 
-    if(init_status != 0)
+    if(init_status == 0)
         run();
+
+    close();
 
     return 0;
 ```
@@ -161,7 +167,7 @@ The function ```box()``` and its [many variants](https://www.mkssoftware.com/doc
 Go ahead and run your project now!
 You should see something like this...
 
-![waiting_for_art.gif](.img/)
+![Hello world!](./.img/part2_2a.png)
 
 Let's use the ```attr``` functions to set the colors.
 Add this block of code at the end of your initialization:
@@ -180,7 +186,7 @@ Here it's used with [```wbkgd```](https://www.mkssoftware.com/docs/man3/curs_bkg
 
 What you should now get is this:
 
-![waiting_for_art2.gif](.img/)
+![Gross!](./.img/part2_2b.png)
 
 Neat! Notice that the 'Hello world' text is darker than the rest - this is because we disabled the ```A_BOLD``` attribute earlier.
 Go ahead and change the colors back to ```COLOR_WHITE``` and ```COLOR_BLACK``` respectively.
@@ -262,14 +268,12 @@ Now we draw our player:
     refresh();
 
     while(1);
-
-    endwin();
-
 /** } **/
 ```
 
 Running the project, what we get is:
-![waiting_for_art3.gif](.img/)
+
+![No, this isn't a gif](./.img/part2_4.png)
 
 There's our player!
 Let's figure out how to move it around.
@@ -294,8 +298,6 @@ We will use a variant, ```wgetch``` (more on ncurses function variants later), a
         mvaddch(player.pos.y, player.pos.x, in_char);
         refresh();
     }
-
-    endwin();
 } // end of run()
 ```
 
@@ -387,9 +389,9 @@ Therefore, we add this line to ```run()```:
 Here we basically "white-out" the last position of the player.
 This method is very performance friendly and will be used often in the future.
 
-At last, compiling and running our project gives something like this:
+At last, compiling and running our project gives a result:
 
-![waiting_for_art4.gif](.img/)
+![Weeee!](./.img/part2_5.gif)
 
 Awesome!
 You're ready to move on to the [next section](../part3), where we will add falling objects to dodge!
