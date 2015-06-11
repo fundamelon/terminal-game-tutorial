@@ -10,6 +10,7 @@ In a new file called ```src/game.h```, we add:
 ```c++
 int init();
 void run();
+void close();
 
 void skipMenu(bool);
 void setDifficulty(int);
@@ -58,7 +59,10 @@ void run() {
     refresh();
 
     while(1);
+}
 
+
+void close() {
     endwin();
 }
 ```
@@ -71,6 +75,8 @@ We go back to main and replace it with:
 
     if(init_status == 0)
         run();
+
+    close();
 
     return 0;
 ```
@@ -262,9 +268,6 @@ Now we draw our player:
     refresh();
 
     while(1);
-
-    endwin();
-
 /** } **/
 ```
 
@@ -294,8 +297,6 @@ We will use a variant, ```wgetch``` (more on ncurses function variants later), a
         mvaddch(player.pos.y, player.pos.x, in_char);
         refresh();
     }
-
-    endwin();
 } // end of run()
 ```
 
