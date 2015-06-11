@@ -163,5 +163,58 @@ void run() {
     }
 }
 ```
+## 5.5 Making Our Intro More Interesting
+Now that we have the core components of our intro window done, we can focus on making it
+less boring. For our game, we will simply make our starry background run on the `game_wnd`.
+In order to do this, we will add features we have used previously to our loop. These will 
+include a sleep time, a tick counter, and the `wrefresh` to refresh our game window only. 
+We will also assume that our star object has already been declared and initialized.
+```c++
+void run(){
+    
+    // code omitted
+
+    while(1) {
+        werase(game_wnd); // deletes contents on game window
+        in_char = wgetch(main_wnd);
+        
+        if(tick % 50 == 0)
+            stars.update();
+
+        // makes starry background
+        for(auto s : stars.getData())
+            mvwaddch(game_wnd, s.getPos().y, s.getPos().x, '.');
+            
+        // check if position is within length
+        if(story_position < story_text[story_part].length()) {
+            wattron(main_wnd, A_BOLD); // makes text added BOLD
+
+            //prints out correspondin part of story char by char
+            mvwaddch(main_wnd, 20, 5 + story_postion, story_text[story_part][story_postion]);
+
+            wattroff(main_wnd, A_BOLD); // turns off BOLD effects
+            story_postion++;
+        }
+
+        if(in_char == ' ') {
+            story_part++;
+            story_postition = 0;
+            mvwhline(main_wnd, 20, 1, ' ', screen_area.width() -2);
+        }
+
+        else if(in_char == 'q') {
+            exit_requested = true;
+            break;
+        }
+
+        if(story_part >= story_text.size()) break;
+
+        wrefresh(game_wnd);
+
+        tick++;
+        usleep(10000); // 1 ms
+    }
+}
+```
 We have now finished making our intro story for our game. You can now use this
 method make many more features such as the game over window displayed when a player loses.
