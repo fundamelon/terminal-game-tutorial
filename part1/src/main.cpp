@@ -5,8 +5,7 @@
 
 int main(int argc, char **argv){
     
-    WINDOW *wnd;
-    wnd = initscr();
+    initscr();
     cbreak();
     noecho();
     clear();

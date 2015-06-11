@@ -47,8 +47,7 @@ You'll need to run ```sudo apt-get install libncurses5-dev``` (or whichever is t
 
 Adding the following code to our main function:
 ```c++
-    WINDOW *wnd;
-    wnd = initscr();
+    initscr();
     cbreak();
     noecho();
     clear();
