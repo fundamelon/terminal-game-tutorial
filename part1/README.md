@@ -54,7 +54,7 @@ Adding the following code to our main function:
     clear();
     refresh();
 
-    wait(1);
+    while(1);
 ```
 and compiling + running ```bin/main``` results in a blank screen.  Here we see several important effects:
 - keyboard buttons pressed are not output to the screen
