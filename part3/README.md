@@ -38,13 +38,14 @@ private:
 #### 3.1.2 Making Our ObjectField Class
 Our ObjectField class will be used to store and delete our objects as well as set the 
 boundaries that our object will be in. Our class will consist of a `rect` type which will define
-our bounds as well as a vector of `SpaceObject` to store our objects. We must be able to set the
-bounds of our object so we will create a void function with one parameter of `rect`
-called `SetBounds`. We also need to be able to access our objects in our vector. We will do this 
-by creating a function `getData()` which returns a `std::vector` of type `SpaceObject`. Our
-next function `erase(size_t)` will be able to delete an object from our vector. Finally, we 
-need an `update()` function that will move our object down the game window and delete them 
-when they are out of bounds. Let's put this together. 
+our bounds. The type `rect` we defined consists of a `vec2i` for our offset and another `vec2i`
+for our boundary. Our class also contains a vector of `SpaceObject` to store our objects. We
+must be able to set the bounds of our object so we will create a void function with one parameter
+of `rect `called `SetBounds`. We also need to be able to access our objects in our vector. We
+will do this by creating a function `getData()` which returns a `std::vector` of type
+`SpaceObject`. Our next function `erase(size_t)` will be able to delete an object from our
+vector. Finally,we need an `update()` function that will move our object down the game window
+and delete them when they are out of bounds. Let's put this together. 
 ```c++
 class ObjectField {
 
@@ -110,23 +111,32 @@ void ObjectField::update() {
 Now that we can create objects that move down our game window we can add many features to our
 game. We can use this to create asteroids that can attack our player or even stars that work
 as a background to our game.
-First, let's initialize our two objects asteroids and stars. We must first declare our objects
-and then set their bounds. Finally, we call the update member of our object to spawn them.
+First, let's initialize our stars. We must first declare our objectand then set it's bounds.
+For now we will set its bounds by getting the max size of the window with `getmaxyx` and using 
+the x and y values for our `rect` value. Later we will learn how to properly set these
+boundaries. For now we must deal with the bugs created by not having proper boundaries such as 
+window frame disappearing. Finally, we call the update member of our object to spawn them.
 ```c++
-ObjectField asteroids;
 ObjectField stars;
 
 void run(){
     
     // code omitted
 
+    // these will be used to initialize rect
+    uinti_fast16_t maxx, maxy;   
+
+    // get window boundaries
+    getmaxyx(wnd, maxy, maxx);
+
+    //initialize our rect with 0 offset
+    rect game_area = { {0, 0} , {maxx, maxy} };
+    
     //set our bounds
-    asteroids.setBounds(game_area);
     stars.setBounds(game_area);
 
     while(1) {
         stars.update();
-        asteroids.update();
         
         // again not all code is present
 
@@ -135,33 +145,37 @@ void run(){
 }
 ```
 Now our objects are spawning and moving down our game window. However, there is a problem we
-must address. This problem is that our object will be spawing and scrolling down the window
+must address. The problem is that our object will be spawing and scrolling down the window
 at a very fast rate. To fix this, we take advantage of the function `usleep`. Our game has
 usleep waiting 1 ms every time we go through our loop. We can make use of this by creating an
 `int` variable `tick`. We will increment tick every 1 ms. Then we will have our function call
 every so many ticks depending on the speed we want it to scroll down. Now we have a method
 for calling our objects `update` member at an interval that is more convenient to us. For our
-game we will call `update` on stars every 50 ms. We will also call `update` on asteroids every
-20 ms after the 100 ms mark. Let's try it now.
+game we will call `update` on stars every 50 ms. Let's try it now.
 ```c++
-ObjectField asteroids;
 ObjectField stars;
 
 void run(){
     
     int tick = 0;
+
     // code omitted
 
+    // these will be used to initialize rect
+    uinti_fast16_t maxx, maxy;   
+
+    // get window boundaries
+    getmaxyx(wnd, maxy, maxx);
+
+    //initialize our rect with 0 offset
+    rect game_area = { {0, 0} , {maxx, maxy} };
+
     //set our bounds
-    asteroids.setBounds(game_area);
     stars.setBounds(game_area);
 
     while(1) {
         if(tick % 50 == 0)
             stars.update();
-        
-        if(tick > 100 && tick % 20 == 0)
-            asteroids.update();
         
         // again not all code is present
 
@@ -172,11 +186,10 @@ void run(){
 ```
 ## 3.4 Displaying Our Objects 
 Now that we have our objects properly spawning and moving down the game window, let us 
-actually make them appear on our window. We will do this by using the `mvwaddch` function
-from the curses library. We will also be using `wattron` and `wattroff` to make our 
-objects stand out more. Let's try this.
+actually make them appear on our window. We will do this by using the `mvaddch` function
+from the curses library. Since we have not learned a better way to clear the screen yet, 
+we must replace the old object with a space to clear from the screen. Let's try this.
 ```c++
-ObjectField asteroids;
 ObjectField stars;
 
 void run(){
@@ -184,36 +197,33 @@ void run(){
     int tick = 0;
     // code omitted
 
+    // these will be used to initialize rect
+    uinti_fast16_t maxx, maxy;   
+
+    // get window boundaries
+    getmaxyx(wnd, maxy, maxx);
+
+    //initialize our rect with 0 offset
+    rect game_area = { {0, 0} , {maxx, maxy} };
+
+
     //set our bounds
-    asteroids.setBounds(game_area);
     stars.setBounds(game_area);
 
     while(1) {
         if(tick % 50 == 0)
             stars.update();
         
-        if(tick > 100 && tick % 20 == 0)
-            asteroids.update();
-        
+        // this removes each object from it's previous position on the screen
+        for(auto s : stars.getData()) {
+            mvaddch(s.getPos().y, s.getPos().x, ' ');
+        }
+
         // again not all code is present
 
         for(auto s : stars.getData()) {
             // displays given character at given position on game window
-            mvwaddch(game_wnd, o.getPos().y, o.getPos().x, '*');
-        }
-
-        // go through each object and make them appear on the window
-        for(auto o : asteroids.getData()) {
-
-            //makes our characters to display bold
-            wattron(game_wnd, A_BOLD);
-            
-            // displays given character at given position on game window
-            mvwaddch(game_wnd, o.getPos().y, o.getPos().x, '*');
-
-            // turn off our BOLD effects 
-            wattroff(game_wnd, A_BOLD);
-
+            mvaddch(s.getPos().y, s.getPos().x, '*');
         }
 
         usleep(10000); // 1 ms
