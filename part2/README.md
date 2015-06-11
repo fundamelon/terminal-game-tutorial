@@ -390,7 +390,7 @@ This method is very performance friendly and will be used often in the future.
 
 At last, compiling and running our project gives something like this:
 
-![final product](https://github.com/fundamelon/terminal-game-tutorial/blob/dev/.img/basicmovement1.gif)
+![final product](./.img/part2_5.gif)
 
 Awesome!
 You're ready to move on to the [next section](../part3), where we will add falling objects to dodge!
