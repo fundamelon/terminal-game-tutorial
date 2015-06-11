@@ -30,13 +30,13 @@ The provided source code is by no means "perfect", and is intended as a gentle g
 #### [Part 2](part2): A player on the screen
 
 
-#### [Part 3](part3): Introducing some game elements
+#### [Part 3](part3): Falling objects
 
 
-#### Part 4: Under construction
+#### [Part 4](part4): Multiple windows
 
 
-#### Part 5: Under construction
+#### [Part 5](part5): Text screens and story
 
 
 #### Part 6: Under construction
