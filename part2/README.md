@@ -203,7 +203,7 @@ Here we declare a ```vec2ui``` datatype.
 The type ```uint_fast8_t``` is a c++11 feature* -
 basically, it asks the compiler to implement that value using the *fastest* available ```int``` size of at *least* 8 bits.
 For a better explanation, see [here](http://stackoverflow.com/questions/8500677/what-is-uint-fast32-t-and-why-should-it-be-used-instead-of-the-regular-int-and-u).  
-<sup>* requires ```<cstdint>```</sup>
+<sup>  * requires ```<cstdint>``` wherever you have done ```#include "game.h"```</sup>
 
 
 ```vec2i``` is simply a signed version.

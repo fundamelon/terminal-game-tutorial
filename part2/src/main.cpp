@@ -5,9 +5,6 @@
 
 
 int main(int argc, char **argv){
-    // parse 
-    // quiz q;
-    // quiz();
     
     int init_status = init(); 
 
