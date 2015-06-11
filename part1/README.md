@@ -93,9 +93,7 @@ Finally, it is important to call ```refresh()``` whenever any changes made shoul
 Any changes using curses will not show up until you call this function.
 
 note: be sure to include the string library at the top
-```c++
-#include <string>
-```
+
 
 #### Final product
 
