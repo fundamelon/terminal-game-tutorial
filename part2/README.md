@@ -166,8 +166,8 @@ The function ```box()``` and its [many variants](https://www.mkssoftware.com/doc
 
 Go ahead and run your project now!
 You should see something like this...
+![alt tag](https://github.com/fundamelon/terminal-game-tutorial/blob/dev/.img/part2.2.png)
 
-![waiting_for_art.gif](.img/)
 
 Let's use the ```attr``` functions to set the colors.
 Add this block of code at the end of your initialization:
@@ -186,7 +186,7 @@ Here it's used with [```wbkgd```](https://www.mkssoftware.com/docs/man3/curs_bkg
 
 What you should now get is this:
 
-![waiting_for_art2.gif](.img/)
+![alt tag](https://github.com/fundamelon/terminal-game-tutorial/blob/dev/.img/part2.2.2.png)
 
 Neat! Notice that the 'Hello world' text is darker than the rest - this is because we disabled the ```A_BOLD``` attribute earlier.
 Go ahead and change the colors back to ```COLOR_WHITE``` and ```COLOR_BLACK``` respectively.
@@ -272,7 +272,7 @@ Now we draw our player:
 ```
 
 Running the project, what we get is:
-![waiting_for_art3.gif](.img/)
+![alt tag](https://github.com/fundamelon/terminal-game-tutorial/blob/dev/.img/part2.4.png)
 
 There's our player!
 Let's figure out how to move it around.
@@ -390,7 +390,7 @@ This method is very performance friendly and will be used often in the future.
 
 At last, compiling and running our project gives something like this:
 
-![waiting_for_art4.gif](.img/)
+![final product](https://github.com/fundamelon/terminal-game-tutorial/blob/dev/.img/basicmovement1.gif)
 
 Awesome!
 You're ready to move on to the [next section](../part3), where we will add falling objects to dodge!

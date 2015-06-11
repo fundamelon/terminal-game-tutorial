@@ -7,20 +7,19 @@ In case you missed it, the previous tutorial can be found [here](../part2).
 
 The next step in our game will be to create an object class that will be used to store objects
 such as asteroids, stars, power ups, etc. To do this, we will create two different classes in
-our `ObjectField.h` header file.
+our `ObjectField.h` file.
 
 #### 3.1.1 Making our SpaceObject Class
-Our SpaceObject class will be the used to for the object itself. The object will consist of
+Our SpaceObject class will be the used for the object itself. The object will consist of
 an x and y position in our game window. To keep track of this, we will do this by using our
-`vec2i` struct from earlier. Remember `vec2i` holds two integers, one for our x position and
-one for our y position. We can now declare a constructor for our class. This will look like
-`SpaceObject(int, int)`. Now let's create some functions that will allow us to manipulate 
-our object. Our first function will be able to set the position of our object. Let's call
-this function `setPos`. It will return a `void` and have a single parameter of `vec2i`.
-Now that we can set our position, we will create a function that will return the position of
-our object. Our final function for this class will update the y position of our object. We will
-call it `update()` and it will return a `void` and take no parameters. Now, let's see what this 
-will look like.
+`vec2i` struct from earlier. Remember `vec2i` holds two integers, one will be for our
+x position and one for our y position. We can now declare a constructor for our class. This will look like `SpaceObject(int, int)`. Now let's create some functions that will allow us to 
+manipulate our object. Our first function will be able to set the position of our object.
+Let's call this function `setPos`. It will return a `void` and have a single parameter 
+of `vec2i`. Now that we can set our position, we will create a function that will return the
+position of our object. Our final function for this class will update the y position of our
+object in order to scroll our object down the screen. We will call it `update()` and it will 
+return a `void` and take no parameters. Now, let's see what this will look like.
 ```c++
 class SpaceObject {
 
@@ -45,7 +44,7 @@ called `SetBounds`. We also need to be able to access our objects in our vector.
 by creating a function `getData()` which returns a `std::vector` of type `SpaceObject`. Our
 next function `erase(size_t)` will be able to delete an object from our vector. Finally, we 
 need an `update()` function that will move our object down the game window and delete them 
-when they are out of bounds. Let's put this together and our entire class looks like
+when they are out of bounds. Let's put this together. 
 ```c++
 class ObjectField {
 
@@ -64,8 +63,7 @@ private:
 ```
 ## 3.2 Implementing our Object Functions
 Our next step will be to actually implement the functions in our object classes. 
-First let's implement the very simple functions that are self-explanatory and require one line 
-of code at most. 
+First let's implement the very simple functions that are self-explanatory. 
 ```c++ 
 void ObjectField::erase(size_t i) {
     // this will erase an object at position i in our vector
@@ -109,8 +107,8 @@ void ObjectField::update() {
 }
 ```
 ## 3.3 Making Use of Our Objects
-Now that we can create objects that move down our game window we can do many things.
-We can use this to create asteroids that can attack our player or even stars that work
+Now that we can create objects that move down our game window we can add many features to our
+game. We can use this to create asteroids that can attack our player or even stars that work
 as a background to our game.
 First, let's initialize our two objects asteroids and stars. We must first declare our objects
 and then set their bounds. Finally, we call the update member of our object to spawn them.
@@ -136,14 +134,15 @@ void run(){
     }
 }
 ```
-Now our objects our spawning and moving down our game window. However, there is a problem we
+Now our objects are spawning and moving down our game window. However, there is a problem we
 must address. This problem is that our object will be spawing and scrolling down the window
-at a very fast rate. To fix this, we take advantage of `usleep`. Our game has usleep 
-waiting 1 ms every time we go through our loop. We can make use of this by creating an `int`
-variable `tick`. We will increment tick every 1 ms. Now we have a method for calling our
-objects `update` member at an interval that is more convenient to us. For our game we will
-call `update` on stars every 50 ms. We will also call `update` on asteroids every 20 ms after
-the 100 ms mark. Let's try it now.
+at a very fast rate. To fix this, we take advantage of the function `usleep`. Our game has
+usleep waiting 1 ms every time we go through our loop. We can make use of this by creating an
+`int` variable `tick`. We will increment tick every 1 ms. Then we will have our function call
+every so many ticks depending on the speed we want it to scroll down. Now we have a method
+for calling our objects `update` member at an interval that is more convenient to us. For our
+game we will call `update` on stars every 50 ms. We will also call `update` on asteroids every
+20 ms after the 100 ms mark. Let's try it now.
 ```c++
 ObjectField asteroids;
 ObjectField stars;
