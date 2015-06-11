@@ -254,6 +254,7 @@ We'll go ahead and set those right now:
 At this point you should also delete the Hello World code in ```run()```.
 
 Now we draw our player:
+
 ```c++
 /** player.pos = {10, 5}; **/
 
@@ -283,13 +284,14 @@ However, remember that we disabled blocking using the ```nodelay``` function.
 To demonstrate this, go back to ```init()``` and comment out the line with ```nodelay```.
 
 We will use a variant, ```wgetch``` (more on ncurses function variants later), as such:
+
 ```c++
 /** player.pos = {6, 6}; **/
     int in_char;
 
     while(1) {
         in_char = wgetch(wnd);
-        mvaddch(player.pos.x, player.pos.y, in_char);
+        mvaddch(player.pos.y, player.pos.x, in_char);
         refresh();
     }
 
@@ -297,12 +299,15 @@ We will use a variant, ```wgetch``` (more on ncurses function variants later), a
 } // end of run()
 ```
 
-As you can probably figure out, this code will draw the last character you typed to the player's position.  
-Neat!
+As you can probably figure out, this code will draw the last character you typed to the player's position.
+Note the ncurses convention of ```(y, x)``` coordinates!
+
 Try this out with some different keys, especially special ones like ALT and ESC.
+Neat!
 
 Go ahead and remove the comment on ```nodelay``` now.
 Instead, we will use a timing method to limit our infinite loop.
+
 ```c++
 /**     mvaddch() **/ 
 
@@ -310,13 +315,15 @@ Instead, we will use a timing method to limit our infinite loop.
 
 /**     refresh() **/
 ```
+
 Don't forget to ```#include <unistd.h>``` for the ```usleep``` function.
 The value passed in is the number of microseconds to sleep for, so here we get a 10ms delay.
 This value is a compromise between good response time and performance.
 
 Now let's detect some key presses.  Modify your code to look like this:
+
 ```c++ 
-/** int in_char; ** /
+/** int in_char; **/
 
     bool exit_requested = false;
 
@@ -329,31 +336,32 @@ Now let's detect some key presses.  Modify your code to look like this:
                 break;
             case KEY_UP:
             case 'w':
-                player.pos.x -= 1;
+                player.pos.y -= 1;
                 break;
             case KEY_DOWN:
             case 's':
-                player.pos.x += 1;
+                player.pos.y += 1;
                 break;
             case KEY_LEFT:
             case 'a':
-                player.pos.y -= 1;
+                player.pos.x -= 1;
                 break;
             case KEY_RIGHT:
             case 'd':
-                player.pos.y += 1;
+                player.pos.x += 1;
                 break;
             default:
                 break;
         }
 
-        mvaddch(player.pos.x, player.pos.y, player.disp_char);
+        mvaddch(player.pos.y, player.pos.x, player.disp_char);
         refresh();
 
         if(exit_requested) break;
 
 /**     usleep **/
 ```
+
 This giant switch-case will change the character's position appropriately for each directional key.
 
 The ```KEY_UP```, ```KEY_DOWN```, etc. macros are action keys defined by ncurses.
@@ -366,20 +374,23 @@ Does it behave as you expected?
 Probably not, since the player seems to be leaving a trail behind!
 Here is another insight into how ncurses works.
 If a character is drawn to the screen, it will stay there until it is overwritten.
+Therefore, we add this line to ```run()```:
 
-Therefore, we must add this line to ```run()```:
 ```c++
 /**     in_char = wgetch(wnd); **/
 
-        mvaddch(player.pos.x, player.pos.y, ' ');
+        mvaddch(player.pos.y, player.pos.x, ' ');
 
 /**     switch statement **/
 ```
+
 Here we basically "white-out" the last position of the player.
 This method is very performance friendly and will be used often in the future.
 
 At last, compiling and running our project gives something like this:
+
 ![waiting_for_art4.gif](.img/)
+
 Awesome!
 You're ready to move on to the [next section](../part3), where we will add falling objects to dodge!
 
