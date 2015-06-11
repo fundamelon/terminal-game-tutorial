@@ -1,4 +1,4 @@
-# PART 5
+# PART 5: Text screens and a story
 
 In case you missed it, the previous tutorial can be found [here](../part4).
 

@@ -1,4 +1,4 @@
-# PART 2
+# PART 2: A player on the screen
 
 Click [here](../part1) in case you missed part 1.
 

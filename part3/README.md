@@ -1,4 +1,4 @@
-# PART 3
+# PART 3: Falling objects
 
 In case you missed it, the previous tutorial can be found [here](../part2).
 
