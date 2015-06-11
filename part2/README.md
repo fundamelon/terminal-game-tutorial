@@ -258,7 +258,7 @@ Now we draw our player:
 ```c++
 /** player.pos = {10, 5}; **/
 
-    mvaddch(player.pos.y, player.pos.x, player.disp.char);
+    mvaddch(player.pos.y, player.pos.x, player.disp_char);
     refresh();
 
     while(1);
