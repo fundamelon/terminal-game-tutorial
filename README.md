@@ -11,7 +11,7 @@ Project goals:
 
 By the time  you're done, you'll have created this awesome space game!
 
-![final product](.img/spacegame1.gif)
+![final product](.img/main_demo.gif)
 
 
 ## Usage
