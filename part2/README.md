@@ -109,7 +109,8 @@ It's important if we want to animate something while still listening for input.
 ```c++
     curs_set(0);
 ```
-Tells ncurses to hide the blinking cursor.
+Simply tells ncurses to make the cursor invisible.
+([man page](http://linux.die.net/man/3/curs_set))
 
 
 Next, we will set up color manipulation.
@@ -257,4 +258,31 @@ Now we draw our player:
 Running the project, what we get is:
 ![waiting_for_art3.gif](.img/)
 
+There's our player!
+Let's figure out how to move it around.
+
 ### 2.5: Capture some keystrokes
+
+ncurses provides a simple function, ```getch```, to take one character of input at a time.
+It functions almost exactly like ```cin``` - blocking the program until input is recieved.
+However, remember that we disabled blocking using the ```nodelay``` function.
+
+We will use a variant, ```wgetch``` (more on ncurses function variants later), as such:
+```c++
+/** player.pos = {6, 6}; **/
+    int in_char;
+
+    while(1) {
+        in_char = wgetch(wnd);
+        mvaddch(player.pos.x, player.pos.y, in_char);
+        refresh();
+    }
+
+    endwin();
+} // end of run()
+```
+
+As you can probably figure out, this code will draw the last character you typed to the player's position.  
+Neat!
+Try this out with some different keys, especially special ones like ALT and ESC.
+
