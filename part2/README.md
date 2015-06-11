@@ -49,18 +49,22 @@ void run() {
     move(5, 5);
 
     std::string text = "Hello world!";
-    for(int i = 0; i < text.size(); i++) {
+    for(size_t i = 0; i < text.size(); i++) {
         addch(text[i]);
         addch(' ');
     }
 
-    refresh;
+    refresh();
 
     while(1);
+
+    endwin();
 }
 ```
 Note that this is just code copy-pasted from our original main function.  
-We go back there and replace it with:
+We also added a variable of type ```WINDOW*``` to save our current window.
+
+We go back to main and replace it with:
 ```c++
     int init_status = init();
 
