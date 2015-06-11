@@ -286,7 +286,7 @@ To demonstrate this, go back to ```init()``` and comment out the line with ```no
 We will use a variant, ```wgetch``` (more on ncurses function variants later), as such:
 
 ```c++
-/** player.pos = {6, 6}; **/
+/** player.pos = {10, 5}; **/
     int in_char;
 
     while(1) {
