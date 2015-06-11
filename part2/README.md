@@ -142,13 +142,13 @@ Enables routines that let you redefine colors within a terminal.
 Finally, let's get something on the screen.
 In ```init()```:
 ```c++
-/** refresh(); **/
+/** start_color(); **/
 
     attron(A_BOLD);
     box(wnd, 0, 0);
     attroff(A_BOLD);
 
-/** keypad(wnd, true); **/
+/** return 0; **/
 ```
 
 ```attron()``` and ```atroff()``` are used to activate an attribute for drawing - in this case, to use bold type.
@@ -180,9 +180,10 @@ What you should now get is this:
 
 ![waiting_for_art2.gif](.img/)
 
-Neat! Go ahead and change the colors back to ```COLOR_WHITE``` and ```COLOR_BLACK``` respectively.
+Neat! Notice that the 'Hello world' text is darker than the rest - this is because we disabled the ```A_BOLD``` attribute earlier.
+Go ahead and change the colors back to ```COLOR_WHITE``` and ```COLOR_BLACK``` respectively.
 
-We'll come back to this later.
+We'll come back to this later.  
 For now, let's return to the header and prototype some more.
 
 ### 2.3: 2D vectors
@@ -205,9 +206,10 @@ Here we declare a ```vec2ui``` datatype.
 2D vectors will be the foundation of our game, and we won't be using floats.
 
 The type ```uint_fast8_t``` is a c++11 feature* -
-basically, it asks the compiler to implement that value using the *fastest* available ```int``` size of at *least* 8 bits.
-For a better explanation, see [here](http://stackoverflow.com/questions/8500677/what-is-uint-fast32-t-and-why-should-it-be-used-instead-of-the-regular-int-and-u).  
-<sup>  * requires ```<cstdint>``` wherever you have done ```#include "game.h"```</sup>
+basically, it asks the system to implement that value using the *fastest* available ```int``` size of at *least* 8 bits.
+For a better explanation, see [here](http://stackoverflow.com/questions/8500677/what-is-uint-fast32-t-and-why-should-it-be-used-instead-of-the-regular-int-and-u). 
+<sub> * note that this requires ```<cstdint>```</sub>
+
 
 
 ```vec2i``` is simply a signed version.
@@ -255,6 +257,8 @@ Now we draw our player:
     refresh();
 
     while(1);
+
+    endwin();
 
 /** } **/
 ```
