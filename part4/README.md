@@ -78,11 +78,11 @@ Moving on, we add:
     int infopanel_height = 4;
     game_wnd = newwin(  screen_area.height() - infopanel_height - 2, 
                         screen_area.width() - 2, 
-                        screen_area.top()+1, 
+                        screen_area.top() + 1, 
                         screen_area.left() + 1  );
     main_wnd = newwin(screen_area.height(), screen_area.width(), 0, 0);
 
-    game_area = { {0, 0 }, { screen_area.width() - 2, screen_area.height() - infopanel_height - 4 } };
+    game_area = { { 0, 0 }, { screen_area.width() - 2, screen_area.height() - infopanel_height - 4 } };
 
 /** see next snippet **/
 ```
@@ -90,7 +90,7 @@ Moving on, we add:
 Here we are defining the bounds of our two windows using the function `newwin`.
 [(man page)](http://linux.die.net/man/3/newwin)
 
-The bounds are defined by simple counting, and as you can see, `game_wnd` excludes the borders that will be around the screen area (hence the `- 2`s).
+The bounds are defined by simple counting, and as you can see, `game_wnd` excludes the borders that will be around the screen area (hence the `- 2`).
 
 ```c++
 /** see previous snippet **/
@@ -119,8 +119,8 @@ The bounds are defined by simple counting, and as you can see, `game_wnd` exclud
 Here, we simply define several useful color pairs, and setup the `keypad` and `nodelay` functions as before.
 However, they need to be called for both windows now.
 
-At this point, we find that we have wrecked the functionality of our program completely.  
-Therefore, we must rewrite our `run()` function, using the new two-window system:
+At this point, we find that our program needs a total overhaul.  
+Therefore, we must rewrite our `run()` function, using the new two-window framework:
 
 ```c++
 void run() {
@@ -180,10 +180,33 @@ Continuing into the main game loop:
         in_char = tolower(in_char);
 
         // controls switch statement goes here
-
+    
 /** see next snippet **/
 ```
 
 Now, we take advantage of the multi-windowing setup, and are now able to clear the game screen every execution.
 This prevents us from having to "white-out" the trail behind every moving object!
-And, since the frame and score have been drawn previously, they will remain persistent.
+Also, since the frame and score have been drawn previously, they will remain persistent.
+
+```c++
+/** see previous snippet **/
+
+        // player ship main body
+        wattron(game_wnd, A_BOLD);
+        mvwaddch(game_wnd, player.pos.y, player.pos.x, player.disp_char);
+        wattroff(game_wnd, A_BOLD);
+
+        wrefresh(main_wnd);
+        wrefresh(game_wnd);
+
+        if(exit_requested || game_over) break;
+
+        tick++;
+
+        usleep(10000); // 10 ms
+    };
+}
+```
+
+Here we close up our game loop with drawing the character, refreshing each window separately, and performing our tick + sleep step.
+
