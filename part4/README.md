@@ -310,7 +310,7 @@ We simply define the update to happen every 70 ms, and draw each star as a perio
 
 This is a simple example of modular programming - you rely on your previous implementations to take care of the "busy work", and have peace of mind to focus on higher levels of logic.
 
-![Starry background](../.img/part4_3.gif)
+![Starry background](./.img/part4_3.gif)
 
 ---
 ### 4.4 Asteroids
