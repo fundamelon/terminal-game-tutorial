@@ -6,7 +6,7 @@ Click [here](../part1) in case you missed part 1.
 ### 2.1: Moving things around a little
 To prepare for the rest of the project, we will now prototype some function headers for our game source. 
 
-In a new file called ```src/game.h```, we add:
+In a new file called `src/game.h`, we add:
 ```c++
 int init();
 void run();
@@ -21,12 +21,12 @@ The latter three functions are "setters".
 They modify game variables, so that a caller does not need to have the variables themselves.
 This is important for encapsulation in object-oriented programming, but it serves another purpose for us.
 
-Using getter and setter functions in the source header allows us to modify globals that are only defined within the source file itself!
-Although globals are usually avoided, they are convenient enough in this case to be worth taking advantage of.
+Using getter and setter functions in the source header allows us to modify variables that are only defined within the source file itself!
 This will prevent a **lot** of headaches later on.
 
 
-Now, we will put things in their proper place - in a new file called ```src/game.cpp```:
+Now, we will put things in their proper place - in a new file called `src/game.cpp`:
+
 ```c++
 #include <string>
 #include <ncurses.h>
@@ -67,9 +67,10 @@ void close() {
 }
 ```
 Note that this is just code copy-pasted from our original main function.  
-We also added a variable of type ```WINDOW*``` to save our current window.
+We also added a pointer to a `WINDOW`, to save our current ncurses window context.
 
 We go back to main and replace it with:
+
 ```c++
     int init_status = init();
 
@@ -80,8 +81,8 @@ We go back to main and replace it with:
 
     return 0;
 ```
-We can also remove all includes, and add ```#include "game.h"```.  
-You should now a makefile target for game.cpp. 
+We can also remove all includes, and add `#include "game.h"`.  
+You should now write a makefile target for `game.cpp`. 
 You can borrow [our example makefile](./makefile) for this.
 
 The project should now behave the same as our Hello World program from last section.
@@ -89,18 +90,19 @@ There are several things to note:
 
 <!-- NOTE: sentences need to be on one line in a bullet list -->
 
-- First off, we are structuring the main and quiz code in a way that makes sense to both object-oriented or functional approaches.  If you wish, you can make game.h a class template, and convert everything to object-oriented format. The function ```init()``` can therefore be easily rewritten as a constructor, and vice versa.
+- First off, we are structuring the main and quiz code in a way that makes sense to both object-oriented or functional approaches.  If you wish, you can make game.h a class template, and convert everything to object-oriented format. The function `init()` can therefore be easily rewritten as a constructor, and vice versa.
 
 - It is important to note the role of main.cpp.  Its purpose will be to parse command line input and pass the data along to the game, which will adjust accordingly.  This compartmentalizes code that would be very cluttered otherwise.  However, you are still welcome to use any approach you are comfortable with.
 
-- Note also that we avoid using any special types in game.h, to avoid having redundant includes in .cpp files that don't need them.  The same goes for variables and structs - never declare them in your header!
+- Also note that we avoid using any special types in game.h, to avoid having redundant includes in .cpp files that don't need them.  The same goes for variables and structs - never declare them in your header!
 
 ---
 ### 2.2: Getting started for real
 
 Let's finish up our initialization procedure.
 
-Add the following snippets to ```init()```, in ```game.cpp```:
+Add the following snippets to `init()`, in `game.cpp`:
+
 ```c++
     /** clear(), refresh() **/
 
@@ -114,7 +116,7 @@ This option enables ncurses to interpret action keys, rather than print out esca
     nodelay(wnd, true);
 ```
 
-This disables blocking when using [```wgetch()```](http://linux.die.net/man/3/wgetch).
+This disables blocking when using [`wgetch()`](http://linux.die.net/man/3/wgetch).
 It's important if we want to animate something while still listening for input.
 ([man page](http://linux.die.net/man/3/nodelay))
 
@@ -148,7 +150,8 @@ Enables routines that let you redefine colors within a terminal.
 
 
 Finally, let's get something on the screen.
-In ```init()```:
+In `init()`:
+
 ```c++
 /** start_color(); **/
 
@@ -159,17 +162,17 @@ In ```init()```:
 /** return 0; **/
 ```
 
-```attron()``` and ```atroff()``` are used to activate an attribute for drawing - in this case, to use bold type.
+`attron()` and `atroff()` are used to activate an attribute for drawing - in this case, to use bold type.
 ([more info](https://www.mkssoftware.com/docs/man3/curs_attr.3.asp))
 
-The function ```box()``` and its [many variants](https://www.mkssoftware.com/docs/man3/curs_border.3.asp) are very convenient - used here to draw a frame around the window.
+The function `box()` and its [many variants](https://www.mkssoftware.com/docs/man3/curs_border.3.asp) are very convenient - used here to draw a frame around the window.
 
 Go ahead and run your project now!
 You should see something like this...
 
 ![Hello world!](./.img/part2_2a.png)
 
-Let's use the ```attr``` functions to set the colors.
+Let's use the `attr` functions to set the colors.
 Add this block of code at the end of your initialization:
 ```c++
 /** start_color(); **/
@@ -180,16 +183,16 @@ Add this block of code at the end of your initialization:
 /** return 0; **/
 ```
 
-```init_pair()``` simply takes two colors and assigns them to a number.
-This number is passed into the ```COLOR_PAIR``` macro in various functions. 
-Here it's used with [```wbkgd```](https://www.mkssoftware.com/docs/man3/curs_bkgd.3.asp) to set the background.
+`init_pair()` simply takes two colors and assigns them to a number.
+This number is passed into the `COLOR_PAIR` macro in various functions. 
+Here it's used with [`wbkgd`](https://www.mkssoftware.com/docs/man3/curs_bkgd.3.asp) to set the background.
 
 What you should now get is this:
 
 ![Gross!](./.img/part2_2b.png)
 
-Neat! Notice that the 'Hello world' text is darker than the rest - this is because we disabled the ```A_BOLD``` attribute earlier.
-Go ahead and change the colors back to ```COLOR_WHITE``` and ```COLOR_BLACK``` respectively.
+Neat! Notice that the 'Hello world' text is darker than the rest - this is because we disabled the `A_BOLD` attribute earlier.
+Go ahead and change the colors back to `COLOR_WHITE` and `COLOR_BLACK` respectively.
 
 We'll come back to this later.  
 For now, let's return to the header and prototype some more.
@@ -211,17 +214,17 @@ typedef struct {
 
 /** init, run, etc **/
 ```
-Here we declare a ```vec2ui``` datatype.
+Here we declare a `vec2ui` datatype.
 2D vectors will be the foundation of our game, and we won't be using floats.
 
-The type ```uint_fast8_t``` is a c++11 feature* -
-basically, it asks the system to implement that value using the *fastest* available ```int``` size of at *least* 8 bits.
+The type `uint_fast8_t` is a c++11 feature* -
+basically, it asks the system to implement that value using the *fastest* available `int` size of at *least* 8 bits.
 For a better explanation, see [here](http://stackoverflow.com/questions/8500677/what-is-uint-fast32-t-and-why-should-it-be-used-instead-of-the-regular-int-and-u). 
-<sub> * note that this requires ```<cstdint>```</sub>
+<sub> * note that this requires `<cstdint>`</sub>
 
 
 
-```vec2i``` is simply a signed version.
+`vec2i` is simply a signed version.
 This means that the maximum range will be at least -127/128.  
 This is OK, since our screen will be limited to 80x24.  (More on that in a bit!)
 
@@ -233,7 +236,8 @@ Now, we have everything we need to create our first character!
 A game isn't interactive if you can't control something.
 Here, we will introduce our first movable element.
 
-In the globals section of ```game.cpp```:
+In the globals section of `game.cpp`:
+
 ```c++
 /** WINDOW wnd; **/
 
@@ -249,6 +253,7 @@ Here is our simple player.
 All it owns is a position and a char to represent itself.
 
 We'll go ahead and set those right now:
+
 ```c++
 /** void run() { **/
 
@@ -257,7 +262,7 @@ We'll go ahead and set those right now:
 
 /** } **/
 ```
-At this point you should also delete the Hello World code in ```run()```.
+At this point you should also delete the Hello World code in `run()`.
 
 Now we draw our player:
 
@@ -281,13 +286,13 @@ Let's figure out how to move it around.
 ---
 ### 2.5: Capture some keystrokes
 
-ncurses provides a simple function, ```getch```, to take one character of input at a time.
-It functions almost exactly like ```cin``` - blocking the program until input is recieved.
-However, remember that we disabled blocking using the ```nodelay``` function.
+ncurses provides a simple function, `getch`, to take one character of input at a time.
+It functions almost exactly like `cin` - blocking the program until input is recieved.
+However, remember that we disabled blocking using the `nodelay` function.
 
-To demonstrate this, go back to ```init()``` and comment out the line with ```nodelay```.
+To demonstrate this, go back to `init()` and comment out the line with `nodelay`.
 
-We will use a variant, ```wgetch``` (more on ncurses function variants later), as such:
+We will use a variant, `wgetch` (more on ncurses function variants later), as such:
 
 ```c++
 /** player.pos = {10, 5}; **/
@@ -302,12 +307,12 @@ We will use a variant, ```wgetch``` (more on ncurses function variants later), a
 ```
 
 As you can probably figure out, this code will draw the last character you typed to the player's position.
-Note the ncurses convention of ```(y, x)``` coordinates!
+Note the ncurses convention of `(y, x)` coordinates!
 
 Try this out with some different keys, especially special ones like ALT and ESC.
 Neat!
 
-Go ahead and remove the comment on ```nodelay``` now.
+Go ahead and remove the comment on `nodelay` now.
 Instead, we will use a timing method to limit our infinite loop.
 
 ```c++
@@ -318,7 +323,7 @@ Instead, we will use a timing method to limit our infinite loop.
 /**     refresh() **/
 ```
 
-Don't forget to ```#include <unistd.h>``` for the ```usleep``` function.
+Don't forget to `#include <unistd.h>` for the `usleep` function.
 The value passed in is the number of microseconds to sleep for, so here we get a 10ms delay.
 This value is a compromise between good response time and performance.
 
@@ -366,8 +371,8 @@ Now let's detect some key presses.  Modify your code to look like this:
 
 This giant switch-case will change the character's position appropriately for each directional key.
 
-The ```KEY_UP```, ```KEY_DOWN```, etc. macros are action keys defined by ncurses.
-In fact, if ```in_char``` was just a type ```char```, these would not work, since they rely on additional bits.
+The `KEY_UP`, `KEY_DOWN`, etc. macros are action keys defined by ncurses.
+In fact, if `in_char` was just a type `char`, these would not work, since they rely on additional bits.
 We also define key `q` to allow us to quit.
 
 Try running the project now.
@@ -376,7 +381,7 @@ Does it behave as you expected?
 Probably not, since the player seems to be leaving a trail behind!
 Here is another insight into how ncurses works.
 If a character is drawn to the screen, it will stay there until it is overwritten.
-Therefore, we add this line to ```run()```:
+Therefore, we add this line to `run()`:
 
 ```c++
 /**     in_char = wgetch(wnd); **/
