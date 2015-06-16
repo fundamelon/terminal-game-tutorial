@@ -330,7 +330,7 @@ Pop open `game.cpp`, and go to where we visited last section:
 
     for(auto a : asteroids.getData()) {
         wattron(game_wnd, A_BOLD);
-        mvwaddch(game_wnd, o.getPos().y, o.getPos().x, '*');
+        mvwaddch(game_wnd, a.getPos().y, a.getPos().x, '*');
         wattroff(game_wnd, A_BOLD);
     }
 
@@ -353,7 +353,7 @@ We can draw it like so, using ncurses' ACS (alt charset):
 
     wattron(game_wnd, A_ALTCHARSET);
     mvwaddch(game_wnd, player.pos.y, player.pos.x - 1, ACS_LARROW);
-    mvwaddch(game_wnd, player.pox.y, player.pos.x + 1, ACS_RARROW);
+    mvwaddch(game_wnd, player.pos.y, player.pos.x + 1, ACS_RARROW);
 
     /** leave an empty space for the next snippet **/
 
@@ -368,7 +368,7 @@ Since we left spaces in our collision code earlier, the sides will not exit the 
 Now, let's add a fun feature - in the space we left open, add this:
 
 ```c++
-    if((tick % 6) / 3) {
+    if((tick % 10) / 3) {
         wattron(game_wnd, COLOR_PAIR(tick % 2 ? 3 : 4));
         mvwaddch(game_wnd, player.pos.y + 1, player.pos.x, ACS_UARROW);
         wattroff(game_wnd, COLOR_PAIR(tick % 2 ? 3 : 4));
@@ -395,7 +395,7 @@ After the controls switch in `run()`:
 ```c++
     /** stars and asteroids update **/
 
-    player.bounds = { { player.pos.x - 1, player.posly, { 3, 1 } }; // player is 3 wide, 1 tall
+    player.bounds = { { player.pos.x - 1, player.pos.y }, { 3, 1 } }; // player is 3x1
 
     /** see next snippet **/
 ```
@@ -407,7 +407,7 @@ Since the player's bounds are a `rect` and every asteroid is a `vec2i`, we can w
 ```c++
     /** see previous snippet **/
 
-    for(size_t i = 0; i < asteroids.getData().size; i++) {
+    for(size_t i = 0; i < asteroids.getData().size(); i++) {
         if(player.bounds.contains(asteroids.getData().at(i).getPos())) {
             asteroids.erase(i);
         }
@@ -419,3 +419,10 @@ Since the player's bounds are a `rect` and every asteroid is a `vec2i`, we can w
 Try running the project now - this will make asteroids "disappear" when hit by the player!
 
 ![Hitting asteroids](./.img/part4_6.gif)
+
+Congratulations!
+In the [next tutorial section](../part5), we will create a user interface, and introduce more game mechanics.
+
+---
+
+This folder contains all source files for part 4.
