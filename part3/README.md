@@ -33,8 +33,23 @@ for our game, we will be using the max dimensions of the terminal for our bounda
 the `ncurses` library will return these dimensions for us. We must then store these two values in a `rect` in order to pass 
 it into `setBounds(rect a)`. 
 ```c++
+#include <unistd>
+#include <ncurses.h>
+
+#include <cstdint>
+#include <string>
+#include <vector> 
+
+#include "game.h"
+#include "ObjectField.h"
+
+// code omitted
 
 ObjectField stars; // initialize our star object
+
+int init() {
+    // code omitted
+}
 
 void run(){
     
