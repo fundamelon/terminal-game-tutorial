@@ -60,8 +60,8 @@ and compiling + running `bin/main` results in a blank screen.  Here we see sever
 - ending the program with ctrl-c returns the terminal to its previous state
 
 This is important because a simple call such as printf("\033c") or system("clear") would modify the terminal and its history - but here, ncurses takes control and reserves it for us.
-See [here](https://hughm.cs.ukzn.ac.za/~murrellh/os/notes/ncurses.html#init)
-and [here](https://tldp.org/HOWTO/NCURSES-Programming-HOWTO/helloworld.html)
+See [here](http://hughm.cs.ukzn.ac.za/~murrellh/os/notes/ncurses.html#init)
+and [here](http://tldp.org/HOWTO/NCURSES-Programming-HOWTO/helloworld.html)
 for detailed explanations of these functions.
 
 We are now ready for our obligatory "Hello World"!
