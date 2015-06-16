@@ -11,19 +11,8 @@ In a new file called `src/game.h`, we add:
 int init();
 void run();
 void close();
-
-void skipMenu(bool);
-void setDifficulty(int);
-void setTime(int);
 ```
 Along with standard compilation checks.  (Add these on your own.)
-The latter three functions are "setters".  
-They modify game variables, so that a caller does not need to have the variables themselves.
-This is important for encapsulation in object-oriented programming, but it serves another purpose for us.
-
-Using getter and setter functions in the source header allows us to modify variables that are only defined within the source file itself!
-This will prevent a **lot** of headaches later on.
-
 
 Now, we will put things in their proper place - in a new file called `src/game.cpp`:
 
@@ -90,7 +79,7 @@ There are several things to note:
 
 <!-- NOTE: sentences need to be on one line in a bullet list -->
 
-- First off, we are structuring the main and quiz code in a way that makes sense to both object-oriented or functional approaches.  If you wish, you can make game.h a class template, and convert everything to object-oriented format. The function `init()` can therefore be easily rewritten as a constructor, and vice versa.
+- First off, we are structuring the main and quiz code in a way that makes sense to both object-oriented and functional approaches.  If you wish, you can make game.h a class - the function `init()` can then be easily rewritten as a constructor, and `close()` a destructor.
 
 - It is important to note the role of main.cpp.  Its purpose will be to parse command line input and pass the data along to the game, which will adjust accordingly.  This compartmentalizes code that would be very cluttered otherwise.  However, you are still welcome to use any approach you are comfortable with.
 

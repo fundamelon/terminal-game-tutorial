@@ -38,14 +38,7 @@ typedef struct {
 
 int init();
 void run();
-
-void skipMenu(bool);
-void setDifficulty(int);
-void setTime(int);
-
-void applyColorscheme(short fg, short bg);
-void winResize(int &orig_x, int &orig_y);
-void setFrame();
+void close();
 
 void drawEnergyBar(int);
 

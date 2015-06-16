@@ -15,8 +15,4 @@ int init();
 void run();
 void close();
 
-void skipMenu(bool);
-void setDifficulty(int);
-void setTime(int);
-
 #endif
