@@ -8,10 +8,46 @@ multiple things such as stars, asteroids, power-ups, etc.
 
 ## 3.2 Code Overview
 Before we can make use of our objects, we must learn how our object classes work.  
-#### 3.2.1 ObjectField.cpp
+### 3.2.1 ObjectField.h
 The ObjectField file contains our `ObjectField` and `SpaceObject` classes. `SpaceObject` holds the x and y position of
 the object. `SpaceObject` is able to store and remove an object as well as update it's y position. 
-The functions of `ObjectField` are provided below.
+```c++
+#ifndef SPACEOBJECT_H
+#define SPACEOBJECT_H
+
+class SpaceObject {
+
+public:
+    SpaceObject(int, int);
+    void update();
+
+    vec2i getPos() const;
+    void setPos(vec2i);
+   
+private:
+    vec2i pos;
+};
+
+
+
+class ObjectField {
+
+public:
+    void update();
+    void erase(size_t);
+    std::vector<SpaceObject> getData() const;
+
+    void setBounds(rect);
+
+private:
+    rect field_bounds;
+    std::vector<SpaceObject> object_set;
+
+};
+
+#endif
+```
+The functionality of each function is provided below.
 * `SpaceObject`
   * `SpaceObject()` intializes the x and y position of the object
   * `update()` increments the y position of the object
@@ -20,10 +56,64 @@ The functions of `ObjectField` are provided below.
 * `ObjectField`
   * `getData()` returns the vector containing our objects 
   * `erase(size_t i)` removes object from vector at index i 
-  * `setBounds(rect a)` sets boundary of our objects to a
+  * `setBounds(rect a)` sets boundary of our objects to variable a
   * `update` erases objects that are out of bounds and calls `SpaceObject::update` to change the y position of the remaining objects.
 
-## 3.3 Implementation
+
+#### 3.2.2 ObjectField.cpp
+Now that we have an understanding of the `ObjectField.h` file, we can now implement the `ObjectField.cpp` file. Let's begin
+with the `SpaceObject` class functions. 
+The constructor `SpaceObject` will set `pos.x` and `pos.y` to the two parameters passed in. 
+```c++
+SpaceObject::SpaceObject(int nx, int ny) { pos.x = nx ; pos.y = ny; }
+```
+Next, We want `SpaceObject::update` to update the y position of the object so that it moves down the screen. This means we 
+must increment it by one each call. 
+```c++
+SpaceObject::update() { pos.y += 1; }
+```
+Our final `SpaceObject` function `getPos` will return a `vec2i` which contains the x and y position of an object. 
+```c++
+vec2i SpaceObject::getPos() const { return pos; }
+```
+Let's move onto our `ObjectField` functions now. Let's begin with `setBounds`. We know this function has parameter `a` 
+which will constrain our objects to it's dimensions. So, we just have to set our `field_bounds` to a. 
+```c++
+void ObjectFields::setBounds(rect a) { field_bounds = a; }
+```
+Our next function `getData` will return a `vector` of `SpaceObject`. To implement this we just return our `object_set`.
+```c++
+std::vector<SpaceObject> ObjectField::getData() conts { return object_set; }
+```
+`erase` takes in an `size_t` parameter which is the index of the object we want to remove. We will use `vector::erase` in 
+order to remove the object from the `object_set`
+```c++
+void ObjectField::erase(size_t i) {
+    object_set.erase(object_set.begin() + i);
+}
+```
+Our final function we must implement is the most difficult of them. `ObjectField::update` controls the movement of every 
+object on the window. It also spawns a new object at a random x position and at y = 0. To do this, we must declare `srand` 
+with `time(NULL)` as it's parameter in our `game.cpp` inti function. We then want to call `rand` to return a random number
+within the range of our window width. Next, our function must also manage the memory of the vector. If we just keep pushing 
+back every object, our vector will get too big and take up a lot of resources. So, we must have our function delete each object
+from the vector as soon as it is out of bounds. Let's implement this now. 
+```c++
+void ObjectField::update() {
+    // update existing objects
+    for(size_t i = 0; i < object_set.size(); i++) {
+        if(object_set.at(i).getPos().y > field_bounds.bot())
+            object_set.erase(object_set.begin() + i);
+
+        object_set.at(i).update();
+    }
+
+    // spawn a new object
+    SpaceObject s(rand() % field_bounds.width(), 0);
+    object_set.push_back(s);  
+}
+```
+## 3.3 Object Implementation
 Our next step will be to implement the objects class in our `game.cpp` in order to make game elements. For our demo, we will
 create stars that will scroll down our game window. (Remember to include appropriate libraries as well as code from 
 previous parts or our next task may not work as desired).
