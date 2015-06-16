@@ -24,8 +24,9 @@ The functions of `ObjectField` are provided below.
   * `update` erases objects that are out of bounds and calls `SpaceObject::update` to change the y position of the remaining objects.
 
 ## 3.3 Implementation
-Our next step will be to implement the objects class to make game elements. For our demo, we will create stars that will 
-scroll down our game window. 
+Our next step will be to implement the objects class in our `game.cpp` in order to make game elements. For our demo, we will
+create stars that will scroll down our game window. (Remember to include appropriate libraries as well as code from 
+previous parts or our next task may not work as desired).
 #### 3.3.1 Initialization
 In order to create these stars, we must declare our object and set it's boundaries. Since we have not yet defined a window
 for our game, we will be using the max dimensions of the terminal for our boundary. The function `getmaxyx(int, int)` from 
@@ -87,7 +88,7 @@ while(1) {
 }
 ```
 #### 3.3.3 Slowing the Scrolling
-As you can see from the code above, our stars are falling down the window too fast. The fix for this is simple. We will
+Testing the code above, we can see that our stars are falling down the window too fast. The fix for this is simple. We will
 create an `int` variable named tick. Tick will be incremented every time we go through our loop. This will allow us to 
 call `stars.update()` after ever x ticks. Now we will not be moving our stars down the window as quickly. For our purpose,
 we will call `update` after every 50 ms (50 ticks). Let's take a look at what our code will look like. 
