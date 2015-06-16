@@ -240,7 +240,7 @@ Change your switch statement for controls to look like this:
 
 ```c++
 
-        /** getting input ** /
+        /** getting input **/
 
         switch(in_char) {
             case 'q':
@@ -278,6 +278,35 @@ Change your switch statement for controls to look like this:
 ```
 
 This is pretty self-explanatory.
-There are downsides to hard-coding offset values, but for now it'll do!
+We also leave 1 character on each side of the player - you'll see why in a bit!
+There are downsides to hard-coding offset values, but it's okay in this case.
 
+If you run the project, you'll see that the player is indeed constrained to the area outlined by the frame.
 
+---
+### 4.3 Stars
+
+This part is very simple.
+We are going to add a moving background that does not affect the player, just like the last part.
+However, it will also be constrained to just the game window.
+
+In `game.cpp`, right after our controls switch:
+```c++
+    /** switch statement **/
+
+    if(tick % 7 == 0)
+        stars.update();
+
+    for(auto s: stars.getData())
+        mvwaddch(game_wnd, s.getPos().y, s.getPos().x, '.');
+
+    /** player drawing **/
+```
+
+That was easy!
+The code we wrote in [part 3](../part3) does most of the work.
+We simply define the update to happen every 70 ms, and draw each star as a period.
+
+This is a good example of compartmental programming - you rely on your previous implementations to take care of the "busy work", and have peace of mind to focus on higher levels of logic.
+
+![Starry background](../.img/part4_3.gif)
