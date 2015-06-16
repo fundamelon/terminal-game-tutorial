@@ -9,7 +9,7 @@ In case you missed it, the previous tutorial can be found [here](../part3).
 This is where ncurses gets tricky.
 This section will focus largely on refactoring our old code to use the window system.
 
-However, it's not all boring - we will also make the player a ship, add animations, a health bar, and a starry background!
+However, it's not all boring - we will also make a starry background, asteroids that the player can hit, and a spaceship!
 
 When your game has separate "areas", such as a score display and the main game area, it's a good idea to update and operate on them separately.
 That way, if your move the player, the entire screen won't need updating - just the game area.
@@ -68,7 +68,7 @@ int init() {
 
 The only new lines here are the random seeding at the top and defining screen area at the bottom.
 80x24 is the default size of any terminal.
-Note that our coordinates are still in the `(x, y` format here.
+Note that our coordinates are still in the `(x, y)` format here.
 
 Moving on, we add:
 
@@ -287,10 +287,11 @@ If you run the project, you'll see that the player is indeed constrained to the 
 ### 4.3 Stars
 
 This part is very simple.
-We are going to add a moving background that does not affect the player, just like the last part.
-However, it will also be constrained to just the game window.
+We are going to add a moving background that does not affect the player, just like in part 3.
+However, it will also be constrained to the new game window.
 
 In `game.cpp`, right after our controls switch:
+
 ```c++
     /** switch statement **/
 
@@ -307,6 +308,114 @@ That was easy!
 The code we wrote in [part 3](../part3) does most of the work.
 We simply define the update to happen every 70 ms, and draw each star as a period.
 
-This is a good example of compartmental programming - you rely on your previous implementations to take care of the "busy work", and have peace of mind to focus on higher levels of logic.
+This is a simple example of modular programming - you rely on your previous implementations to take care of the "busy work", and have peace of mind to focus on higher levels of logic.
 
 ![Starry background](../.img/part4_3.gif)
+
+---
+### 4.4 Asteroids
+
+It's time to add the main enemy of our game - space rocks!
+
+Getting these to show up is easy.
+Pop open `game.cpp`, and go to where we visited last section:
+
+```c++
+    /** stars update **/
+
+    if(tick > 100 && tick % 20 == 0)
+        asteroids.update();
+
+    /** stars draw **/
+
+    for(auto a : asteroids.getData()) {
+        wattron(game_wnd, A_BOLD);
+        mvwaddch(game_wnd, o.getPos().y, o.getPos().x, '*');
+        wattroff(game_wnd, A_BOLD);
+    }
+
+    /** player drawing **/
+```
+
+We want them to move down five times a second, but only begin moving after one second.
+This will cause a cool pause before the game begins each time it's restarted.
+
+---
+### 4.5 The spaceship
+
+Let's take a break from programming the object fields, and finish up our character's model.
+Our simplest spaceship will look like this: `<o>`
+
+We can draw it like so, using ncurses' ACS (alt charset):
+
+```c++
+    /** player drawing **/
+
+    wattron(game_wnd, A_ALTCHARSET);
+    mvwaddch(game_wnd, player.pos.y, player.pos.x - 1, ACS_LARROW);
+    mvwaddch(game_wnd, player.pox.y, player.pos.x + 1, ACS_RARROW);
+
+    /** leave an empty space for the next snippet **/
+
+    wattroff(game_wnd, A_ALTCHARSET);
+
+    /** asteroid drawing **/
+```
+
+This will draw the character's spaceship parts on the sides, using an offset from the player's current position.
+Since we left spaces in our collision code earlier, the sides will not exit the game area.
+
+Now, let's add a fun feature - in the space we left open, add this:
+
+```c++
+    if((tick % 6) / 3) {
+        wattron(game_wnd, COLOR_PAIR(tick % 2 ? 3 : 4));
+        mvwaddch(game_wnd, player.pos.y + 1, player.pos.x, ACS_UARROW);
+        wattroff(game_wnd, COLOR_PAIR(tick % 2 ? 3 : 4));
+    }
+```
+
+Run the project - what you should see is a flickering engine flame!
+We are using simple arithmetic on the `tick` value to change the flame character's color over time in a simple animation.
+
+You will find that little things like these add life and depth to our simple game, even while the player is doing nothing.
+
+Here's a screenshot of the result:
+
+![asteroids and flame](./.img/part4_5.png)
+
+---
+### 4.6 Collisions
+
+Let's hit some asteroids!
+
+Now that we have our ship, we can define the player's full bounds.
+After the controls switch in `run()`:
+
+```c++
+    /** stars and asteroids update **/
+
+    player.bounds = { { player.pos.x - 1, player.posly, { 3, 1 } }; // player is 3 wide, 1 tall
+
+    /** see next snippet **/
+```
+
+This will update our bounds after each move in the game loop.
+Recall that we write a `contains` function for our `rect` type earlier.
+Since the player's bounds are a `rect` and every asteroid is a `vec2i`, we can write a simple linear collision detection algorithm:
+
+```c++
+    /** see previous snippet **/
+
+    for(size_t i = 0; i < asteroids.getData().size; i++) {
+        if(player.bounds.contains(asteroids.getData().at(i).getPos())) {
+            asteroids.erase(i);
+        }
+    }
+
+    /** drawing backgrounds and player **/
+```
+
+Try running the project now - this will make asteroids "disappear" when hit by the player!
+
+![Hitting asteroids](./.img/part4_6.gif)
