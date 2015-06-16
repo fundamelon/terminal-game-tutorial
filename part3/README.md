@@ -9,8 +9,9 @@ multiple things such as stars, asteroids, power-ups, etc.
 ## 3.2 Code Overview
 Before we can make use of our objects, we must learn how our object classes work.  
 ### 3.2.1 ObjectField.h
-The ObjectField file contains our `ObjectField` and `SpaceObject` classes. `SpaceObject` holds the x and y position of
-the object. `SpaceObject` is able to store and remove an object as well as update it's y position. 
+The `ObjectField.h` file contains our `ObjectField` and `SpaceObject` classes. `SpaceObject` holds the x and y position of
+the object. `SpaceObject` is able to store and remove an object as well as update it's y position. Below we can see what 
+our `ObjectField.h` file looks like. 
 ```c++
 #ifndef SPACEOBJECT_H
 #define SPACEOBJECT_H
@@ -169,6 +170,9 @@ Our next task is to display the objects we created in our game window. We can us
 call `update` so our stars will scroll down the game window. So, we will update the object then remove it from it's old 
 position and finally display it at it's new position.
 ```c++
+
+// code omitted
+
 while(1) {
 
     stars.update();
