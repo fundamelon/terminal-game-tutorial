@@ -16,7 +16,7 @@ By the time  you're done, you'll have created this awesome space game!
 
 ## Usage
 This tutorial series is meant to be read in sequence, with the reader programming as we go along.
-Each part of the tutorial series is an individual project - you can ```make``` and run it if you wish.  All source code is provided.
+Each part of the tutorial series is an individual project - you can `make` and run it if you wish.  All source code is provided.
 
 Of course, there are many different ways of solving almost any programming task.
 Therefore, it is recommended that the reader first skim through a tutorial, then attempt to implement the content in their own style.  
@@ -33,17 +33,17 @@ The provided source code is by no means "perfect", and is intended as a gentle g
 #### [Part 3](part3): Falling objects
 
 
-#### [Part 4](part4): Multiple windows (Under construction)
+#### [Part 4](part4): Multiple windows
 
 
-#### [Part 5](part5): Text screens and story (Under construction)
+#### [Part 5](part5): User interface and text (Under construction)
 
 
 #### Part 6: Extras (and by that we mean guns) (Under construction)
 
 
 ## Installation
-```git clone https://github.com/fundamelon/terminal-game-tutorial.git``` in your directory of choice.
+`git clone https://github.com/fundamelon/terminal-game-tutorial.git` in your directory of choice.
 
 ## Issues
 If you notice that anything in the tutorials is wrong, badly written, or downright condescending, feel free to
