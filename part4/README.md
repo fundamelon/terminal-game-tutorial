@@ -223,7 +223,7 @@ Here are some questions to ask yourself:
 
 - Which character gets drawn, the player or the frame?
 - How does this compare to the behavior after you finished the last part?
-- Why does this happen?
+- What makes this happen, in terms of our windowing system?
 
 We are ready to implement bounds checking now.
 The player needs to stay within the game, after all!

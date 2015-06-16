@@ -1,5 +1,5 @@
 #terminal-game-tutorial
-This is a tutorial on how to create a simple terminal game while learning c++ and ncurses.
+This is a tutorial on how to create a simple terminal game using [c++](https://en.cppreference.com/w/) and [ncurses](https://www.gnu.org/software/ncurses).
 It will guide you through the basics of game programming through several distinct parts, each incrementally adding features.
 
 
@@ -18,7 +18,7 @@ By the time  you're done, you'll have created this awesome space game!
 This tutorial series is meant to be read in sequence, with the reader programming as we go along.
 Each part of the tutorial series is an individual project - you can ```make``` and run it if you wish.  All source code is provided.
 
-Of course, there are many different ways of solving almost any programming task.  
+Of course, there are many different ways of solving almost any programming task.
 Therefore, it is recommended that the reader first skim through a tutorial, then attempt to implement the content in their own style.  
 
 The provided source code is by no means "perfect", and is intended as a gentle guide.
