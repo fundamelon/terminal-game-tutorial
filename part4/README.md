@@ -209,4 +209,75 @@ Also, since the frame and score have been drawn previously, they will remain per
 ```
 
 Here we close up our game loop with drawing the character, refreshing each window separately, and performing our tick + sleep step.
+Note that we changed the `mvaddch` function to `mvwaddch()`, which takes in a window as a first argument.
+Many ncurses functions follow this naming scheme.
+
+Now run the project.
+You should notice the frames are drawn around each area as they should be!
+Since linux's default terminal size is 80x24, if you start a new terminal with default size, the frame around the game should fit precisely.
+
+![Frames!](./.img/part4_1.png)
+
+Notice what happens when the player moves to a position on the frame.
+Here are some questions to ask yourself:
+
+- Which character gets drawn, the player or the frame?
+- How does this compare to the behavior after you finished the last part?
+- Why does this happen?
+
+We are ready to implement bounds checking now.
+The player needs to stay within the game, after all!
+
+---
+### 4.2 Bounds checking
+
+There are many ways to keep a position within some set bounds.
+There is a useful function in `cmath` called `clamp` that provides a simple and portable interface to do this.
+For this example, though, we'll implement it using conditional statements.
+We'll also have some fun, and map movement to emulate vim!
+
+Change your switch statement for controls to look like this:
+
+```c++
+
+        /** getting input ** /
+
+        switch(in_char) {
+            case 'q':
+                exit_requested = true;
+                break;
+            case KEY_UP:
+            case 'w':
+            case 'i':
+                if(player.pos.y > game_area.top())
+                    player.pos.y -= 1;
+                break;
+            case KEY_DOWN:
+            case 's':
+            case 'k':
+                if(player.pos.y < game_area.bot() + 1)
+                    player.pos.y += 1;
+                break;
+            case KEY_LEFT:
+            case 'a':
+            case 'j':
+                if(player.pos.x > game_area.left() + 1)
+                    player.pos.x -= 1;
+                break;
+            case KEY_RIGHT:
+            case 'd':
+            case 'l':
+                if(player.pos.x < game_area.right() - 2)
+                    player.pos.x += 1;
+                break;
+            default:
+                break;
+        }
+
+        /** player drawing **/
+```
+
+This is pretty self-explanatory.
+There are downsides to hard-coding offset values, but for now it'll do!
+
 
