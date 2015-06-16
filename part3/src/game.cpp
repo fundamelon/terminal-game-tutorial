@@ -67,9 +67,9 @@ void run() {
 
     bool exit_requested = false;
 
+
     while(1) {
         
-        int tick = 0;
         in_char = wgetch(wnd);
 
         mvaddch(player.pos.y, player.pos.x, ' ');
@@ -78,8 +78,7 @@ void run() {
             mvaddch(s.getPos().y, s.getPos().x, ' ');            
         }
 
-        if(tick % 50 == 0)
-            stars.update();
+        stars.update();
 
         switch(in_char) {
             case 'q':
@@ -114,7 +113,6 @@ void run() {
         if(exit_requested) break;
 
         usleep(10000); // 10 ms
-        tick++;
 
         refresh();
     }

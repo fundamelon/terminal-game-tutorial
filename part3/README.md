@@ -87,40 +87,7 @@ while(1) {
 
 }
 ```
-#### 3.3.3 Slowing the Scrolling
-Testing the code above, we can see that our stars are falling down the window too fast. The fix for this is simple. We will
-create an `int` variable named tick. Tick will be incremented every time we go through our loop. This will allow us to 
-call `stars.update()` after ever x ticks. Now we will not be moving our stars down the window as quickly. For our purpose,
-we will call `update` after every 50 ms (50 ticks). Let's take a look at what our code will look like. 
-```c++
-int tick = 0;
-
-while(1) {
-    
-    if(tick % 50 == 0) // call every 50 ticks
-        stars.update();
-
-    // this removes each object from it's previous position on the screen
-    // by placing it with  a space on the screen instead
-    // this will be replaced by a more efficent method later
-    for(auto s : stars.getData()) {
-        mvaddch(s.getPos().y, s.getPos().x, ' ');
-    }
-
-    for(auto s : stars.getData()) {
-
-        // use getPos() to get position of stars
-        // displays given character at given position on game window
-        mvaddch(s.getPos().y, s.getPos().x, '*');
-
-    }
-
-    usleep(10000); // wait for 1 ms
-    tick++;
-
-}
-
-```
-
 ## 3.4 Conclusion
-Now that you have learned how to use objects to create game elements, you are ready to move on to the [next section](../part4).
+We have now completed our task, however there is still problems we need to fix. Our stars currently moved down the screen to
+quickly. They also create strange results when they collide with the window frame or player. This fix will be discussed in 
+our next section which can be found here [next section](../part4).
