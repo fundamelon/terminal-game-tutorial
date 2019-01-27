@@ -13,7 +13,7 @@ Let's start by creating a file, src/main.cpp:
 ```c++
 #include <ncurses.h>
 
-int main(int argv, char** argc) {
+int main(int argc, char** argv) {
 
     return 0;
 }
